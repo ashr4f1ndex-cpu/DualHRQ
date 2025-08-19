@@ -1,0 +1,209 @@
+# HRM Public Data Training Requirements
+# =====================================
+# 
+# Comprehensive requirements for HRM training with public data sources
+# Includes core dependencies, optional enhancements, and development tools
+
+# Core Dependencies (Required)
+# ============================
+torch>=2.0.0
+numpy>=1.21.0
+pandas>=1.5.0
+scipy>=1.9.0
+scikit-learn>=1.1.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+tqdm>=4.64.0
+pyyaml>=6.0
+requests>=2.28.0
+aiohttp>=3.8.0
+websockets>=10.0
+
+# Financial Data Sources (Core)
+# =============================
+yfinance>=0.2.0           # Yahoo Finance - completely free
+pandas-datareader>=0.10.0 # Multiple data sources including FRED
+
+# Financial Data Sources (Optional - Freemium)
+# ===========================================
+# fredapi>=0.5.0           # Federal Reserve Economic Data API
+# alpha-vantage>=2.3.1     # Alpha Vantage API client
+# iexfinance>=0.5.0        # IEX Cloud API client
+# polygon-api-client>=1.12.0  # Polygon.io API client
+# databento>=0.18.0        # Databento market data
+
+# Alternative Data Sources (Optional)
+# ==================================
+# praw>=7.6.0              # Reddit API for sentiment analysis
+# tweepy>=4.14.0           # Twitter API for social sentiment
+# textblob>=0.17.1         # Text processing and sentiment analysis
+# vaderSentiment>=3.3.2    # VADER sentiment analysis
+# newsapi-python>=0.2.6   # News API client
+
+# Technical Analysis (Enhanced Features)
+# ====================================
+ta-lib>=0.4.25            # Technical Analysis Library
+vectorbt>=0.25.0          # Vectorized backtesting
+pyfolio>=0.9.2            # Portfolio and risk analytics
+quantstats>=0.0.59        # Portfolio analytics
+empyrical>=0.5.5          # Financial risk and performance metrics
+
+# Machine Learning Enhancements
+# ============================
+xgboost>=1.7.0            # Gradient boosting for benchmarks
+lightgbm>=3.3.0           # Light gradient boosting
+catboost>=1.1.0           # CatBoost for categorical features
+optuna>=3.1.0             # Hyperparameter optimization
+bayesian-optimization>=1.4.0  # Bayesian optimization
+
+# Deep Learning Extensions
+# =======================
+transformers>=4.25.0      # Hugging Face transformers
+timm>=0.6.0              # PyTorch Image Models (for transfer learning)
+torchvision>=0.15.0      # Computer vision models
+torchaudio>=0.15.0       # Audio processing models
+
+# Time Series Specific
+# ===================
+statsmodels>=0.13.0      # Statistical models
+arch>=5.3.0              # GARCH and volatility models
+prophet>=1.1.0           # Time series forecasting
+pmdarima>=2.0.0          # Auto ARIMA models
+sktime>=0.15.0           # Time series machine learning
+
+# Data Processing and Storage
+# ==========================
+pyarrow>=10.0.0          # Arrow columnar format
+fastparquet>=0.8.0       # Fast parquet I/O
+h5py>=3.7.0              # HDF5 file format
+sqlalchemy>=1.4.0        # SQL toolkit
+psycopg2-binary>=2.9.0   # PostgreSQL adapter
+pymongo>=4.3.0           # MongoDB driver
+
+# Web Scraping and APIs
+# ====================
+beautifulsoup4>=4.11.0   # HTML/XML parsing
+selenium>=4.7.0          # Web browser automation
+scrapy>=2.7.0            # Web scraping framework
+httpx>=0.24.0            # Async HTTP client
+
+# Visualization and Reporting
+# ==========================
+plotly>=5.12.0           # Interactive plotting
+bokeh>=2.4.0             # Interactive web plots
+dash>=2.7.0              # Web applications for analytics
+streamlit>=1.15.0        # Data apps
+jupyter>=1.0.0           # Jupyter notebooks
+ipywidgets>=8.0.0        # Interactive widgets
+
+# Development and Testing
+# ======================
+pytest>=7.2.0           # Testing framework
+pytest-cov>=4.0.0       # Coverage testing
+pytest-asyncio>=0.20.0  # Async testing
+black>=22.10.0          # Code formatting
+flake8>=6.0.0           # Code linting
+mypy>=0.991             # Type checking
+pre-commit>=2.20.0      # Git hooks
+
+# Performance and Monitoring
+# =========================
+memory-profiler>=0.60.0 # Memory usage profiling
+psutil>=5.9.0           # System and process utilities
+py-spy>=0.3.14          # Python profiler
+line-profiler>=4.0.0   # Line-by-line profiling
+
+# Distributed Computing (Optional)
+# ===============================
+# dask>=2022.12.0         # Parallel computing
+# ray>=2.2.0              # Distributed computing
+# joblib>=1.2.0           # Parallel processing
+
+# Cloud Storage (Optional)
+# =======================
+# boto3>=1.26.0           # AWS SDK
+# google-cloud-storage>=2.7.0  # Google Cloud Storage
+# azure-storage-blob>=12.14.0  # Azure Blob Storage
+
+# Cryptocurrency Data (Optional)
+# =============================
+# ccxt>=2.5.0             # Cryptocurrency exchange API
+# python-binance>=1.0.0  # Binance API
+# coinbase-pro>=1.1.4    # Coinbase Pro API
+
+# Alternative Data Providers (Optional)
+# ====================================
+# quandl>=3.7.0           # Quandl financial data
+# intrinio-sdk>=6.22.2   # Intrinio financial data
+# eod-data>=1.0.0         # End of day data
+# tiingo>=0.14.0          # Tiingo financial API
+
+# Risk Management (Optional)
+# =========================
+# pyRiskParity>=0.1.0     # Risk parity optimization
+# cvxpy>=1.2.0            # Convex optimization
+# cvxopt>=1.3.0           # Convex optimization toolkit
+
+# Natural Language Processing (Optional)
+# =====================================
+# spacy>=3.4.0           # Advanced NLP
+# nltk>=3.8.1            # Natural language toolkit
+# gensim>=4.3.0          # Topic modeling
+# transformers>=4.25.0   # Pre-trained language models
+
+# Financial Analysis Libraries
+# ===========================
+zipline-reloaded>=2.2.0  # Algorithmic trading library
+backtrader>=1.9.76.123  # Backtesting library
+bt>=0.2.9                # Flexible backtesting
+ffn>=0.3.6               # Financial functions
+pyportfolioopt>=1.5.4   # Portfolio optimization
+
+# Jupyter Extensions (Development)
+# ===============================
+jupyterlab>=3.5.0       # JupyterLab interface
+jupyterlab-git>=0.41.0  # Git extension for JupyterLab
+nbstripout>=0.6.1       # Remove notebook outputs
+
+# Configuration and Utilities
+# ==========================
+python-dotenv>=0.21.0   # Environment variables
+click>=8.1.0            # Command line interfaces
+rich>=12.6.0            # Rich text and formatting
+typer>=0.7.0            # Modern CLI framework
+
+# Experimental/Bleeding Edge (Optional)
+# ====================================
+# lightning>=1.8.0       # PyTorch Lightning
+# hydra-core>=1.3.0      # Configuration management
+# wandb>=0.13.0          # Experiment tracking
+# mlflow>=2.1.0          # ML lifecycle management
+# tensorboard>=2.11.0    # TensorBoard logging
+
+# Platform-Specific Dependencies
+# =============================
+# Windows
+# pywin32>=305 ; sys_platform == "win32"
+
+# macOS
+# pyobjc-framework-Cocoa>=9.0 ; sys_platform == "darwin"
+
+# Version Constraints for Stability
+# ================================
+# Pin specific versions for reproducibility
+setuptools>=65.0.0
+wheel>=0.38.0
+pip>=22.3.0
+
+# Development Dependencies
+# ======================
+# These are only needed for development, not production
+# install with: pip install -r requirements_dev.txt
+
+# requirements_dev.txt would contain:
+# pre-commit>=2.20.0
+# sphinx>=5.3.0
+# sphinx-rtd-theme>=1.1.0
+# nbsphinx>=0.8.0
+# pytest-benchmark>=4.0.0
+# pytest-xdist>=3.1.0

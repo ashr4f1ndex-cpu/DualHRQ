@@ -1,0 +1,8 @@
+torch>=2.0,<3.0
+numpy>=1.26,<2.0
+pandas>=2.2,<3.0
+tqdm>=4.66,<5.0
+scikit-learn>=1.4,<2.0
+scipy>=1.11,<2.0
+python-dateutil>=2.8,<3.0
+pandas-market-calendars>=3.0,<4.0

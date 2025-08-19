@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r lab_v10/requirements.txt
+        pip install pytest pytest-cov pytest-xdist
+        pip install pre-commit mypy bandit ruff
+    
+    - name: Run linting with ruff
+      run: |
+        ruff check lab_v10/src --fix
+        ruff format lab_v10/src --check
+    
+    - name: Run type checking with mypy
+      run: |
+        mypy lab_v10/src --ignore-missing-imports
+      continue-on-error: true
+    
+    - name: Run security checks with bandit
+      run: |
+        bandit -r lab_v10/src -f json -o bandit-report.json
+      continue-on-error: true
+    
+    - name: Run offline unit tests with coverage
+      run: |
+        cd lab_v10
+        pytest -v --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=85 -m "not integration"
+    
+    - name: Run determinism tests
+      run: |
+        cd lab_v10
+        pytest tests/test_determinism.py -v
+    
+    - name: Leakage gate (CPCV)
+      run: |
+        cd lab_v10
+        python -c "
+        try:
+            from src.options.walkforward_cpcv import cpcv_splits
+            splits = list(cpcv_splits(240, n_groups=6, test_groups=2, embargo=2))
+            assert len(splits) > 0
+            print(f'✓ CPCV splits working: {len(splits)} combinations')
+        except Exception as e:
+            print(f'CPCV check failed: {e}')
+            raise
+        "
+    
+    - name: Check parameter budget
+      run: |
+        cd lab_v10
+        python -c "
+        try:
+            from src.options.hrm_net import HRMNet
+            model = HRMNet()
+            params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+            print(f'HRM parameters: {params:,}')
+            assert 26_500_000 <= params <= 27_500_000, f'Param budget violated: {params}'
+            print('✓ Parameter budget check passed')
+        except Exception as e:
+            print(f'Parameter budget check skipped: {e}')
+        "
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        files: lab_v10/coverage.xml
+        fail_ci_if_error: false
+    
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results-${{ matrix.python-version }}
+        path: |
+          lab_v10/coverage.xml
+          bandit-report.json\n

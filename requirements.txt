@@ -1,0 +1,1 @@
+numpy==1.26.4\npandas==2.2.2\nscipy==1.13.1\nscikit-learn==1.5.1\npytest==8.2.2\npyyaml==6.0.2\nmatplotlib==3.9.0\n

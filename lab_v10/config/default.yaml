@@ -1,0 +1,102 @@
+
+portfolio:
+  allocation_options: 0.7
+
+options_book:
+  dte_days: 30
+  hold_days: 5
+  bid_ask_bps: 12.5
+  commission_per_contract: 0.65
+  train_years: 4
+  test_years: 1
+  embargo_days: 5
+
+intraday_book:
+  atr_n: 14
+  stretch: 2.0
+  vol_mult: 2.5
+  stop_bps: 50
+  slippage_bps: 5
+
+# market microstructure & regulatory settings for intraday simulation
+  ssr:
+    enable: true          # enable Short Sale Restriction (SSR) gating
+    # once a security declines 10% from the previous close the short-sale
+    # restriction is triggered and remains active for the remainder of the day
+    # and the following day【838491366880600†L220-L289】.
+  luld:
+    enable: true          # enable Limit Up–Limit Down (LULD) price bands
+    pct: 0.10             # percentage width of the price band
+    state_bars: 3         # number of consecutive bars at the band to trigger a limit state
+    pause_bars: 5         # number of bars to pause trading after a limit state
+    # price bands double in the last 25 minutes of trading to prevent
+    # illiquidity【733935163568087†L33-L71】.
+
+# Neural HRM configuration
+hrm:
+  # seed for reproducibility
+  seed: 42
+  precision: bf16
+  # token parameters
+  tokens:
+    daily_window: 192
+    minutes_per_day: 390
+  # high-level transformer hyperparameters (daily context)
+  h:
+    layers: 4
+    d_model: 512
+    heads: 8
+    ffn_mult: 3.0
+    dropout: 0.1
+  # low-level transformer hyperparameters (minute context)
+  l:
+    layers: 6
+    d_model: 768
+    heads: 12
+    ffn_mult: 3.0
+    dropout: 0.1
+  # reasoning schedule: number of segments and inner iterations for the L module
+  segments_N: 6
+  l_inner_T: 4
+  # Adaptive Computation Time settings
+  act:
+    enable: true
+    max_segments: 6
+    ponder_cost: 0.001
+    threshold: 0.01         # probability threshold for halting; smaller values allow more segments
+  # cross-attention setting
+  use_cross_attn: false      # set to true to allow L-module to attend over H-module
+  # loss settings
+  losses:
+    # when true, learn log variances to weight Head-A and Head-B losses
+    uncertainty_weighting: true
+    # optional portfolio objective for finetuning
+    portfolio:
+      enable: false        # enable a differentiable portfolio loss during finetuning
+      type: sharpe         # sharpe | sortino | cvar | evar
+      weight: 0.2          # scaling factor for the portfolio loss term
+      # CVaR/EVar specific parameters
+      alpha: 0.95          # CVaR confidence level
+      k_barrier: 25.0      # softplus slope for CVaR
+      tau: 10.0            # temperature for EVaR (ignored unless type=evar)
+      # position sizing parameters
+      w_cap: 1.0           # maximum absolute position size
+      beta: 2.0            # tanh slope for sizing
+      # transaction cost parameters (basis points)
+      spread_bps: 1.0      # effective bid–ask spread
+      fee_bps: 0.1         # per trade fee component
+      # intraday coupling
+      use_intraday: true   # include intraday PnL in the portfolio loss
+      intraday_weight: 1.0 # weight of intraday PnL relative to daily
+  # optimizer settings
+  optimizer:
+    lr: 0.0001
+    schedule: cosine
+  # regularization
+  regularization:
+    weight_decay: 0.01
+    grad_clip_norm: 1.0
+  # training
+  batch_size: 64
+  max_epochs: 10
+  early_stop_patience: 3

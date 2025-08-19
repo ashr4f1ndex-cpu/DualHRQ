@@ -1,0 +1,379 @@
+# Public Data Configuration for HRM Training
+# ==========================================
+# 
+# This configuration file enables comprehensive public data integration
+# for HRM training without requiring expensive subscriptions.
+# 
+# Features:
+# - Multiple free and freemium data sources
+# - Benchmark datasets and synthetic data
+# - Pre-trained model integration
+# - Real-time data feeds
+# - Alternative data sources
+
+# Data Sources Configuration
+data_sources:
+  # Completely free sources (no API key required)
+  free:
+    yahoo_finance:
+      enabled: true
+      description: "Yahoo Finance - completely free options and stock data"
+      symbols: ["SPY", "QQQ", "IWM", "AAPL", "GOOGL", "MSFT", "TSLA", "NVDA"]
+      update_interval: 30  # seconds
+      rate_limit: null
+    
+    fred_economic:
+      enabled: true
+      description: "Federal Reserve Economic Data - free economic indicators"
+      series:
+        - "VIXCLS"      # VIX
+        - "DGS10"       # 10-Year Treasury
+        - "DGS2"        # 2-Year Treasury
+        - "UNRATE"      # Unemployment Rate
+        - "CPIAUCSL"    # CPI
+        - "FEDFUNDS"    # Federal Funds Rate
+      update_interval: 3600  # 1 hour
+    
+    dolthub_options:
+      enabled: true
+      description: "DoltHub options database - free options chain data"
+      csv_export_url: "https://www.dolthub.com/repositories/post-no-preference/options/csv/main"
+      symbols: ["SPY", "QQQ", "AAPL"]
+      update_frequency: "daily"
+
+  # Freemium sources (free tier available)
+  freemium:
+    alpha_vantage:
+      enabled: false  # Set to true and add API key to use
+      api_key: "your_alpha_vantage_api_key"
+      description: "Alpha Vantage - 25 free API calls per day"
+      rate_limit: 25  # calls per day
+      symbols: ["SPY", "QQQ", "AAPL"]
+      functions:
+        - "TIME_SERIES_DAILY_ADJUSTED"
+        - "GLOBAL_QUOTE"
+        - "OVERVIEW"
+    
+    iex_cloud:
+      enabled: false  # Set to true and add token to use
+      token: "your_iex_cloud_token"
+      description: "IEX Cloud - 50k free credits per month"
+      rate_limit: 50000  # credits per month
+      symbols: ["SPY", "QQQ", "AAPL", "GOOGL", "MSFT"]
+    
+    polygon_io:
+      enabled: false  # Set to true and add API key to use
+      api_key: "your_polygon_api_key"
+      description: "Polygon.io - limited free tier"
+      rate_limit: 5  # calls per minute on free tier
+      symbols: ["SPY", "AAPL"]
+    
+    news_api:
+      enabled: false  # Set to true and add API key to use
+      api_key: "your_newsapi_key"
+      description: "NewsAPI - 1000 free requests per day"
+      rate_limit: 1000  # requests per day
+      keywords: ["SPY", "market", "fed", "inflation", "earnings"]
+    
+    databento:
+      enabled: false  # Set to true and add API key to use
+      api_key: "your_databento_api_key"
+      description: "Databento - options and futures data"
+      datasets: ["OPRA", "CME"]
+
+  # Alternative data sources
+  alternative:
+    reddit_sentiment:
+      enabled: false  # Requires Reddit API credentials
+      client_id: "your_reddit_client_id"
+      client_secret: "your_reddit_client_secret"
+      subreddits: ["wallstreetbets", "investing", "SecurityAnalysis"]
+      symbols: ["SPY", "QQQ", "AAPL", "TSLA", "GME"]
+    
+    crypto_options:
+      enabled: true
+      description: "Deribit cryptocurrency options - free API"
+      symbols: ["BTC", "ETH"]
+      base_url: "https://www.deribit.com/api/v2/public"
+
+# Benchmark Datasets Configuration
+benchmark_datasets:
+  enabled: true
+  
+  synthetic:
+    straddle_dataset:
+      enabled: true
+      n_samples: 2000
+      start_date: "2018-01-01"
+      end_date: "2023-12-31"
+      regime_switching: true
+    
+    intraday_signals:
+      enabled: true
+      n_days: 1000
+      signals_per_day: 8
+      realistic_patterns: true
+    
+    stress_scenarios:
+      enabled: true
+      n_scenarios: 500
+      include_jump_diffusion: true
+      include_regime_switching: true
+  
+  historical_crises:
+    enabled: true
+    periods:
+      - name: "covid_crash"
+        start: "2020-02-01"
+        end: "2020-04-01"
+      - name: "financial_crisis"
+        start: "2007-10-01"
+        end: "2009-03-01"
+      - name: "dot_com_crash"
+        start: "2000-03-01"
+        end: "2002-10-01"
+
+# Pre-trained Models Configuration
+pretrained_models:
+  enabled: true
+  cache_dir: "./pretrained_models"
+  
+  models:
+    hrm_base_financial:
+      enabled: true
+      description: "Base HRM trained on synthetic financial data"
+      auto_download: true
+      
+    transformer_encoder_financial:
+      enabled: true
+      description: "Pre-trained transformer encoder for financial sequences"
+      auto_download: true
+      
+    volatility_predictor:
+      enabled: false
+      description: "Pre-trained volatility prediction model"
+      auto_download: false
+
+# Transfer Learning Configuration
+transfer_learning:
+  enabled: true
+  
+  default_strategy:
+    freeze_encoder: true
+    progressive_unfreezing:
+      enabled: true
+      schedule:
+        - epoch: 5
+          unfreeze: ["l_module.layers.2"]
+        - epoch: 10
+          unfreeze: ["l_module.layers.3"]
+        - epoch: 15
+          unfreeze: ["h_module.layers.0"]
+        - epoch: 20
+          unfreeze: ["h_module"]
+    
+    learning_rates:
+      pretrained_layers: 1.0e-5
+      new_layers: 1.0e-3
+    
+    warmup_epochs: 3
+
+# Real-time Data Configuration
+realtime:
+  enabled: false  # Enable for live training/inference
+  
+  feeds:
+    yahoo_finance:
+      enabled: true
+      symbols: ["SPY", "QQQ", "AAPL"]
+      update_interval: 30
+    
+    alpha_vantage:
+      enabled: false
+      symbols: ["SPY", "QQQ"]
+      update_interval: 60
+    
+    news_sentiment:
+      enabled: false
+      update_interval: 300  # 5 minutes
+  
+  feature_engineering:
+    window_size: 1000
+    technical_indicators:
+      - "sma_5"
+      - "sma_20"
+      - "bollinger_bands"
+      - "rsi"
+      - "volatility"
+    
+    sentiment_features:
+      - "news_sentiment"
+      - "social_sentiment"
+
+# Feature Engineering Configuration
+feature_engineering:
+  options:
+    enabled: true
+    features:
+      - "iv_term_structure"
+      - "iv_skew"
+      - "realized_volatility"
+      - "greeks"
+      - "carry"
+      - "regime_indicators"
+  
+  intraday:
+    enabled: true
+    features:
+      - "vwap"
+      - "atr"
+      - "stretch"
+      - "volume_profile"
+      - "time_features"
+      - "pivot_points"
+  
+  macro:
+    enabled: true
+    features:
+      - "yield_curve"
+      - "vix_level"
+      - "dollar_index"
+      - "commodity_prices"
+
+# Data Pipeline Configuration
+data_pipeline:
+  validation:
+    cross_validation:
+      method: "combinatorial_purged"
+      n_folds: 5
+      embargo_days: 21
+      test_size: 0.2
+    
+    leakage_detection:
+      enabled: true
+      checks:
+        - "temporal_ordering"
+        - "feature_leakage"
+        - "label_leakage"
+  
+  preprocessing:
+    normalization:
+      method: "robust_scaling"  # Uses median and IQR
+      per_asset: true
+    
+    missing_data:
+      method: "forward_fill"
+      max_gap_days: 5
+    
+    outlier_handling:
+      method: "winsorization"
+      percentiles: [0.01, 0.99]
+
+# Training Enhancements
+training:
+  data_augmentation:
+    enabled: true
+    techniques:
+      - "noise_injection"
+      - "time_warping"
+      - "regime_mixing"
+  
+  curriculum_learning:
+    enabled: true
+    stages:
+      - name: "simple_patterns"
+        epochs: 10
+        data_complexity: "low"
+      - name: "complex_patterns"
+        epochs: 20
+        data_complexity: "medium"
+      - name: "full_complexity"
+        epochs: 30
+        data_complexity: "high"
+  
+  ensemble_methods:
+    enabled: true
+    n_models: 5
+    diversity_methods:
+      - "bootstrap_sampling"
+      - "feature_subsampling"
+      - "architecture_variations"
+
+# Evaluation Configuration
+evaluation:
+  metrics:
+    prediction:
+      - "mse"
+      - "r_squared"
+      - "auc_roc"
+    
+    trading:
+      - "sharpe_ratio"
+      - "sortino_ratio"
+      - "max_drawdown"
+      - "deflated_sharpe"
+    
+    statistical:
+      - "white_reality_check"
+      - "hansen_spa_test"
+      - "bootstrap_confidence"
+  
+  benchmarks:
+    enabled: true
+    models:
+      - "random_forest"
+      - "xgboost"
+      - "lstm"
+      - "simple_moving_average"
+
+# Monitoring and Logging
+monitoring:
+  enabled: true
+  
+  data_quality:
+    checks:
+      - "missing_data_rate"
+      - "outlier_detection"
+      - "distribution_drift"
+    
+    alerts:
+      missing_data_threshold: 0.05
+      outlier_threshold: 0.02
+  
+  model_performance:
+    tracking:
+      - "prediction_accuracy"
+      - "feature_importance"
+      - "training_loss"
+    
+    drift_detection:
+      enabled: true
+      window_size: 100
+
+# Export Configuration
+exports:
+  datasets:
+    format: "parquet"  # or "csv", "hdf5"
+    compression: "snappy"
+    
+  models:
+    format: "pytorch"
+    include_config: true
+    
+  results:
+    format: "json"
+    include_metadata: true
+
+# Development and Testing
+development:
+  debug_mode: false
+  
+  testing:
+    unit_tests: true
+    integration_tests: true
+    performance_tests: true
+    
+  profiling:
+    enabled: false
+    memory_profiling: true
+    cpu_profiling: true
