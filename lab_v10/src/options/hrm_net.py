@@ -246,8 +246,16 @@ class HRMConfig:
 class HRMNet(nn.Module):
     """Simplified HRM with FiLM conditioning and deep supervision."""
 
-    def __init__(self, cfg: HRMConfig):
+    def __init__(self, cfg: HRMConfig = None):
         super().__init__()
+        if cfg is None:
+            # Default config targeting ~27M params
+            cfg = HRMConfig(
+                h_layers=4, h_dim=512, h_heads=8, h_ffn_mult=3.0, h_dropout=0.1,
+                l_layers=6, l_dim=768, l_heads=12, l_ffn_mult=3.0, l_dropout=0.1,
+                segments_N=4, l_inner_T=16, act_enable=True, act_max_segments=8,
+                ponder_cost=0.01, use_cross_attn=False
+            )
         self.cfg = cfg
         # H- and L-encoders
         self.h_enc = Encoder(cfg.h_layers, cfg.h_dim, cfg.h_heads, cfg.h_ffn_mult, cfg.h_dropout)

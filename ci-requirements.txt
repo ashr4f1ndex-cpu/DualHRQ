@@ -1,8 +1,13 @@
-numpy>=1.23
-pandas>=1.5
+numpy>=1.26
+pandas>=2.2
 pytest>=7.4
 pytest-cov>=4.1
 pytest-xdist>=3.5
 ruff>=0.6
 mypy>=1.10
 bandit>=1.7
+torch>=2.0,<3.0
+scikit-learn>=1.4,<2.0
+scipy>=1.11,<2.0
+python-dateutil>=2.8,<3.0
+tqdm>=4.66,<5.0
