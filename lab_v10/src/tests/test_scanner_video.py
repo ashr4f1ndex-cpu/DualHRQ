@@ -10,7 +10,8 @@ def test_scanner_basic_structure():
     # inject a blow-off near mid-session
     blow = int(len(idx)*0.4)
     base[blow:blow+5] += np.linspace(0, 3.5, 5)  # vertical push
-    vol = np.ones(len(idx))*1e5; vol[blow:blow+5] *= 5
+    vol = np.ones(len(idx))*1e5
+    vol[blow:blow+5] *= 5
     df = pd.DataFrame({"open":base, "high":base+0.1, "low":base-0.1, "close":base, "volume":vol}, index=idx)
     signal, lh_level, diag = detect_parabolic_reversal(df, stretch_thr=1.5, vol_mult=2.0)
     # Expect at least one signal after the blow-off
