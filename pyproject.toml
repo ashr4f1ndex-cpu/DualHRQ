@@ -8,9 +8,11 @@ line_length = 100
 
 [tool.ruff]
 line-length = 100
+extend-exclude = ["build","dist",".venv","venv"]
+
+[tool.ruff.lint]
 select = ["E","F","I","W","B","UP"]
 ignore = ["E203","E501"]
-extend-exclude = ["build","dist",".venv","venv"]
 
 [tool.mypy]
 python_version = "3.11"
