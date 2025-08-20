@@ -20,7 +20,7 @@ import websockets
 import json
 import pandas as pd
 import numpy as np
-from typing import Dict, List, Optional, Callable, Any
+from typing import Optional, Callable, Any
 import aiohttp
 import logging
 from datetime import datetime, timedelta
@@ -40,13 +40,13 @@ class DataPoint:
     timestamp: datetime
     symbol: str
     data_type: str  # 'price', 'option', 'news', 'economic'
-    value: Dict[str, Any]
+    value: dict[str, Any]
     source: str
 
 class DataFeed(ABC):
     """Abstract base class for data feeds."""
     
-    def __init__(self, symbols: List[str], callback: Callable[[DataPoint], None] = None):
+    def __init__(self, symbols: list[str], callback: Callable[[DataPoint], None] = None):
         self.symbols = symbols
         self.callback = callback
         self.is_running = False
@@ -73,7 +73,7 @@ class DataFeed(ABC):
             self.buffer.get_nowait()  # Remove oldest
             self.buffer.put_nowait(data_point)  # Add new
     
-    def get_buffered_data(self, max_items: int = 100) -> List[DataPoint]:
+    def get_buffered_data(self, max_items: int = 100) -> list[DataPoint]:
         """Get buffered data points."""
         data_points = []
         for _ in range(min(max_items, self.buffer.qsize())):
@@ -86,7 +86,7 @@ class DataFeed(ABC):
 class PolygonIOFeed(DataFeed):
     """Real-time data feed using Polygon.io WebSocket API."""
     
-    def __init__(self, api_key: str, symbols: List[str], 
+    def __init__(self, api_key: str, symbols: list[str], 
                  callback: Callable[[DataPoint], None] = None):
         super().__init__(symbols, callback)
         self.api_key = api_key
@@ -115,7 +115,7 @@ class PolygonIOFeed(DataFeed):
                 
                 logger.info(f"Connected to Polygon.io for symbols: {self.symbols}")
                 
-                # Listen for messages
+                # listen for messages
                 while self.is_running:
                     try:
                         message = await asyncio.wait_for(websocket.recv(), timeout=1.0)
@@ -135,7 +135,7 @@ class PolygonIOFeed(DataFeed):
         if self.websocket:
             await self.websocket.close()
     
-    async def _process_message(self, message: List[Dict]):
+    async def _process_message(self, message: list[dict]):
         """Process incoming WebSocket message."""
         for msg in message:
             msg_type = msg.get('ev')  # Event type
@@ -172,7 +172,7 @@ class PolygonIOFeed(DataFeed):
 class AlphaVantageFeed(DataFeed):
     """Real-time data feed using Alpha Vantage API."""
     
-    def __init__(self, api_key: str, symbols: List[str],
+    def __init__(self, api_key: str, symbols: list[str],
                  callback: Callable[[DataPoint], None] = None):
         super().__init__(symbols, callback)
         self.api_key = api_key
@@ -232,7 +232,7 @@ class AlphaVantageFeed(DataFeed):
 class YahooFinanceFeed(DataFeed):
     """Real-time data feed using Yahoo Finance (free)."""
     
-    def __init__(self, symbols: List[str], callback: Callable[[DataPoint], None] = None):
+    def __init__(self, symbols: list[str], callback: Callable[[DataPoint], None] = None):
         super().__init__(symbols, callback)
         self.update_interval = 30  # seconds (be respectful to free API)
         self.executor = ThreadPoolExecutor(max_workers=4)
@@ -299,7 +299,7 @@ class YahooFinanceFeed(DataFeed):
 class NewsFeed(DataFeed):
     """Real-time news feed for sentiment analysis."""
     
-    def __init__(self, api_key: str, symbols: List[str],
+    def __init__(self, api_key: str, symbols: list[str],
                  callback: Callable[[DataPoint], None] = None):
         super().__init__(symbols, callback)
         self.api_key = api_key
@@ -396,15 +396,15 @@ class RealTimeFeatureEngine:
         self.news_sentiment = {}
         self.features = {}
     
-    def process_data_point(self, data_point: DataPoint) -> Dict[str, float]:
+    def process_data_point(self, data_point: DataPoint) -> dict[str, float]:
         """
         Process a data point and return computed features.
-        
+
         Args:
             data_point: Incoming data point
-        
+
         Returns:
-            Dictionary of computed features
+            dictionary of computed features
         """
         symbol = data_point.symbol
         
@@ -455,12 +455,11 @@ class RealTimeFeatureEngine:
         
         return features
     
-    def _compute_price_features(self, prices: List[float]) -> Dict[str, float]:
+    def _compute_price_features(self, prices: list[float]) -> dict[str, float]:
         """Compute price-based technical features."""
         if len(prices) < 2:
             return {}
         
-        prices_array = np.array(prices)
         
         features = {
             'price_current': prices[-1],
@@ -511,12 +510,11 @@ class RealTimeFeatureEngine:
         
         return features
     
-    def _compute_volume_features(self, volumes: List[float]) -> Dict[str, float]:
+    def _compute_volume_features(self, volumes: list[float]) -> dict[str, float]:
         """Compute volume-based features."""
         if len(volumes) < 2:
             return {}
         
-        volumes_array = np.array(volumes)
         
         features = {
             'volume_current': volumes[-1],
@@ -534,7 +532,7 @@ class RealTimeFeatureEngine:
         
         return features
     
-    def _compute_sentiment_features(self, sentiments: List[float]) -> Dict[str, float]:
+    def _compute_sentiment_features(self, sentiments: list[float]) -> dict[str, float]:
         """Compute sentiment-based features."""
         if not sentiments:
             return {}
@@ -572,7 +570,7 @@ class RealTimeFeatureEngine:
 class RealTimeDataManager:
     """Manage multiple real-time data feeds."""
     
-    def __init__(self, symbols: List[str]):
+    def __init__(self, symbols: list[str]):
         self.symbols = symbols
         self.feeds = {}
         self.feature_engine = RealTimeFeatureEngine()
@@ -584,7 +582,7 @@ class RealTimeDataManager:
         feed.callback = self._on_data_point
         self.feeds[name] = feed
     
-    def add_callback(self, callback: Callable[[str, Dict[str, float]], None]):
+    def add_callback(self, callback: Callable[[str, dict[str, float]], None]):
         """Add a callback for processed features."""
         self.callbacks.append(callback)
     
@@ -626,7 +624,7 @@ class RealTimeDataManager:
             logger.info(f"Stopping feed: {name}")
             await feed.stop()
     
-    def get_latest_features(self, symbol: str) -> Dict[str, float]:
+    def get_latest_features(self, symbol: str) -> dict[str, float]:
         """Get latest features for a symbol."""
         return self.feature_engine.features.get(symbol, {})
     
@@ -635,7 +633,7 @@ class RealTimeDataManager:
         return self.feature_engine.get_feature_vector(symbol)
 
 # Example configuration and usage
-def create_realtime_config() -> Dict:
+def create_realtime_config() -> dict:
     """Create example real-time data configuration."""
     return {
         'symbols': ['AAPL', 'GOOGL', 'MSFT', 'SPY'],
@@ -668,7 +666,7 @@ async def main_example():
     data_manager = RealTimeDataManager(symbols)
     
     # Add callback to print features
-    def on_features(symbol: str, features: Dict[str, float]):
+    def on_features(symbol: str, features: dict[str, float]):
         if features:
             print(f"{symbol}: Price={features.get('price_current', 0):.2f}, "
                   f"Change={features.get('price_change_pct', 0):.2f}%")
