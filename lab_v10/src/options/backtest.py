@@ -42,7 +42,10 @@ def simulate_straddle_pnl(
     }).dropna()
 
     df["enter"] = (df["signal"] > params.threshold).astype(int)
-    pnl = []; equity = []; entries = []; costs = []
+    pnl = []
+    equity = []
+    entries = []
+    costs = []
     eq = 0.0
     dates = df.index.to_list()
     n = len(df)
@@ -75,11 +78,24 @@ def simulate_straddle_pnl(
                 open_widen_bps=params.open_widen_bps
             )
             for k in range(i, j):
-                pnl.append(0.0); costs.append(0.0); eq += 0.0; equity.append(eq); entries.append(1 if k==i else 0)
-            pnl.append(trade_pnl); costs.append(trade_cost); eq += trade_pnl; equity.append(eq); entries.append(0)
+                pnl.append(0.0)
+                costs.append(0.0)
+                eq += 0.0
+                equity.append(eq)
+                entries.append(1 if k==i else 0)
+            pnl.append(trade_pnl)
+            costs.append(trade_cost)
+            eq += trade_pnl
+            equity.append(eq)
+            entries.append(0)
             i = j + 1
         else:
-            pnl.append(0.0); costs.append(0.0); eq += 0.0; equity.append(eq); entries.append(0); i += 1
+            pnl.append(0.0)
+            costs.append(0.0)
+            eq += 0.0
+            equity.append(eq)
+            entries.append(0)
+            i += 1
     pnl_s = pd.Series(pnl, index=df.index[:len(pnl)])
     eq_s = pd.Series(equity, index=df.index[:len(equity)])
     ent_s = pd.Series(entries, index=df.index[:len(entries)])

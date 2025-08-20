@@ -11,7 +11,7 @@ def atr(high, low, close, n=14):
     tr = pd.concat([high - low, (high - close.shift()).abs(), (low - close.shift()).abs()], axis=1).max(axis=1)
     return tr.rolling(n).mean()
 
-def detect_parabolic_backside(df: pd.DataFrame, atr_n:int=14, stretch=2.0, vol_mult=2.5, lookback=30):
+def detect_parabolic_backside(df: pd.DataFrame, atr_n: int=14, stretch=2.0, vol_mult=2.5, lookback=30):
     """Return a boolean Series: potential backside short trigger (lower-high break) after parabolic extension."""
     d = df.copy()
     d['vwap'] = vwap(d)

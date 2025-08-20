@@ -169,7 +169,8 @@ class HRMTrainer:
                 # backward pass
                 total.backward()
                 torch.nn.utils.clip_grad_norm_(self.net.parameters(), self.cfg.grad_clip)
-                opt.step(); sched.step()
+                opt.step()
+                sched.step()
             # validation loop
             self.net.eval()
             val_loss = 0.0

@@ -25,7 +25,7 @@ Example
 
 >>> import torch
 >>> from src.common.portfolio_loss import sharpe_loss
->>> r = torch.tensor([[0.01, -0.02, 0.03],[0.02, -0.01, 0.01]])
+>>> r = torch.tensor([[0.01, -0.02, 0.03], [0.02, -0.01, 0.01]])
 >>> sharpe_loss(r)
 tensor(???)
 

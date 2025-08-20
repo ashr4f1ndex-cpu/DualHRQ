@@ -6,7 +6,7 @@ from typing import Optional
 def _norm_cdf(x: float) -> float:
     return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
 
-def bsm_call_put(S: float, K: float, T: float, r: float, q: float, sigma: float) -> tuple[float,float]:
+def bsm_call_put(S: float, K: float, T: float, r: float, q: float, sigma: float) -> tuple[float, float]:
     if T <= 0 or sigma <= 0 or S <= 0 or K <= 0:
         call = max(S - K, 0.0)
         put  = max(K - S, 0.0)
@@ -32,7 +32,7 @@ def crr_american(
     dividends: list of (t_div, amount) in years from now.
     """
     if T <= 0 or sigma <= 0 or S <= 0 or K <= 0:
-        return max(S-K,0.0) if is_call else max(K-S,0.0)
+        return max(S-K, 0.0) if is_call else max(K-S, 0.0)
     dt = T/steps
     u = math.exp(sigma*math.sqrt(dt))
     d = 1.0/u
@@ -64,7 +64,7 @@ def crr_american(
             values[i] = max(hold, exercise)
     return values[0]
 
-def crr_straddle(S: float, T: float, r: float, sigma: float, steps:int=200, dividends:Optional[list[tuple[float,float]]]=None) -> float:
+def crr_straddle(S: float, T: float, r: float, sigma: float, steps: int=200, dividends: Optional[list[tuple[float, float]]]=None) -> float:
     call = crr_american(S, S, T, r, sigma, steps=steps, is_call=True, dividends=dividends)
     put  = crr_american(S, S, T, r, sigma, steps=steps, is_call=False, dividends=dividends)
     return call + put

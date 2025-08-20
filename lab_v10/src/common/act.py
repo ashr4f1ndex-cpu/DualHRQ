@@ -31,7 +31,7 @@ def act_ponder_penalty(steps_used: torch.Tensor, ponder_cost: float) -> torch.Te
     Parameters
     ----------
     steps_used : torch.Tensor
-        A one-dimensional tensor of shape (B,) where B is the batch size
+        A one-dimensional tensor of shape (B, ) where B is the batch size
         containing the number of reasoning segments used by the model for
         each example.
     ponder_cost : float
@@ -60,7 +60,7 @@ def q_head_loss(logits: torch.Tensor, q_targets: torch.Tensor) -> torch.Tensor:
         A tensor of shape (B, 2) containing the raw Q-head logits for
         the two classes: [continue, halt].
     q_targets : torch.Tensor
-        A tensor of shape (B,) containing the ground truth labels
+        A tensor of shape (B, ) containing the ground truth labels
         indicating whether the model should continue (0) or halt (1).
 
     Returns

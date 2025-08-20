@@ -109,7 +109,7 @@ class PolygonIOFeed(DataFeed):
                 for symbol in self.symbols:
                     subscribe_msg = {
                         "action": "subscribe",
-                        "params": f"T.{symbol},Q.{symbol},A.{symbol}"  # Trades, Quotes, Aggregates
+                        "params": f"T.{symbol}, Q.{symbol}, A.{symbol}"  # Trades, Quotes, Aggregates
                     }
                     await websocket.send(json.dumps(subscribe_msg))
 

@@ -34,7 +34,10 @@ def aggregate_intraday_features(df: pd.DataFrame, signal: pd.Series, diag: pd.Da
         if len(returned) == 0:
             return np.nan
         return (returned.index[0] - t0).seconds/60.0
-    feats['time_to_vwap_min'] = [ _tt_vwap(df[df.index.date==d], diag[diag.index.date==d], sig[sig.index.date==d]) for d in feats.index.date ]
+    feats['time_to_vwap_min'] = [
+        _tt_vwap(df[df.index.date==d], diag[diag.index.date==d], sig[sig.index.date==d])
+        for d in feats.index.date
+    ]
     feats.index.name = 'date'
     # Shift features forward by one day to avoid lookahead when using for next-day trades.
     return feats.shift(1)

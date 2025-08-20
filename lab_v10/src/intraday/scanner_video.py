@@ -7,12 +7,12 @@ def vwap(df: pd.DataFrame) -> pd.Series:
     vv = df['volume'].cumsum().replace(0, np.nan)
     return pv / vv
 
-def atr(df: pd.DataFrame, n:int=14) -> pd.Series:
+def atr(df: pd.DataFrame, n: int=14) -> pd.Series:
     high, low, close = df['high'], df['low'], df['close']
     tr = pd.concat([high - low, (high - close.shift()).abs(), (low - close.shift()).abs()], axis=1).max(axis=1)
     return tr.rolling(n, min_periods=1).mean()
 
-def _find_lower_high_triggers(d: pd.DataFrame, lookback:int=30) -> pd.DataFrame:
+def _find_lower_high_triggers(d: pd.DataFrame, lookback: int=30) -> pd.DataFrame:
     # Identify peaks after parabolic on each day session
     d = d.copy()
     d['peak'] = (d['high'] == d['high'].rolling(lookback, min_periods=3).max())
@@ -25,11 +25,13 @@ def _find_lower_high_triggers(d: pd.DataFrame, lookback:int=30) -> pd.DataFrame:
     signal = []
     for i, row in d.iterrows():
         if state == "idle":
-            lh_level.append(np.nan); signal.append(False)
+            lh_level.append(np.nan)
+            signal.append(False)
             if bool(row['parabolic']):
                 state = "parabolic"
         elif state == "parabolic":
-            lh_level.append(np.nan); signal.append(False)
+            lh_level.append(np.nan)
+            signal.append(False)
             if bool(row['peak']):
                 peak_price = float(row['high'])
                 state = "after_peak"
@@ -50,17 +52,21 @@ def _find_lower_high_triggers(d: pd.DataFrame, lookback:int=30) -> pd.DataFrame:
             signal.append(bool(trig))
             lh_level.append(pivot_low if pivot_low is not None else np.nan)
             if trig:
-                state = "idle"; peak_price=None; pivot_low=None
+                state = "idle"
+                peak_price = None
+                pivot_low = None
             # Reset if new parabolic detected (rare but possible)
             if bool(row['parabolic']):
-                state = "parabolic"; peak_price=None; pivot_low=None
+                state = "parabolic"
+                peak_price = None
+                pivot_low = None
     d['lh_level'] = pd.Series(lh_level, index=d.index)
     d['enter_signal'] = pd.Series(signal, index=d.index).astype(bool)
     return d
 
 def detect_parabolic_reversal(
     df: pd.DataFrame,
-    atr_n:int=14, stretch_thr:float=2.0, vol_mult:float=2.5, lookback:int=30
+    atr_n: int=14, stretch_thr: float=2.0, vol_mult: float=2.5, lookback: int=30
 ):
     """Video-accurate detector: parabolic stretch + lower-high breakdown trigger.
     Returns (signal Series, lh_level Series, enriched DataFrame with diagnostics)."""
