@@ -16,7 +16,7 @@ def _find_lower_high_triggers(d: pd.DataFrame, lookback:int=30) -> pd.DataFrame:
     # Identify peaks after parabolic on each day session
     d = d.copy()
     d['peak'] = (d['high'] == d['high'].rolling(lookback, min_periods=3).max())
-    # Build state machine: after a parabolic=True bar triggers, watch for first peak, then a bounce failing under that peak; 
+    # Build state machine: after a parabolic=True bar triggers, watch for first peak, then a bounce failing under that peak;
     # define LH pivot as that bounce's swing low; trigger when price breaks pivot low.
     state = "idle"
     peak_price = None

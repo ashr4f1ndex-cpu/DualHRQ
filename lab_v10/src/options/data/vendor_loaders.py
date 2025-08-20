@@ -156,7 +156,7 @@ def load_dolthub_options_csv(csv_path: str, symbol: str=None, target_dte:int=30)
     return S, iv_now, iv_exit, expiry
 
 def load_marketdata_csv(csv_path: str, symbol: str=None, target_dte:int=30):
-    """Load a CSV exported from MarketData.app (options chain with IV/Greeks). 
+    """Load a CSV exported from MarketData.app (options chain with IV/Greeks).
     Columns vary by export; we flex-map date/expiration/strike/iv/underlying.
     """
     import pandas as pd
