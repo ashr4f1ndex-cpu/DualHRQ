@@ -460,7 +460,6 @@ class RealTimeFeatureEngine:
         if len(prices) < 2:
             return {}
 
-        prices_array = np.array(prices)
 
         features = {
             'price_current': prices[-1],
@@ -516,7 +515,6 @@ class RealTimeFeatureEngine:
         if len(volumes) < 2:
             return {}
 
-        volumes_array = np.array(volumes)
 
         features = {
             'volume_current': volumes[-1],

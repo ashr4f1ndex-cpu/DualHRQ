@@ -17,8 +17,10 @@ def load_chain_series(csv_path: str=None, start: str=None, end: str=None):
     """
     if csv_path and Path(csv_path).exists():
         df = pd.read_csv(csv_path, parse_dates=["date", "expiry"]).set_index("date").sort_index()
-        if start: df = df[df.index >= pd.to_datetime(start)]
-        if end:   df = df[df.index <= pd.to_datetime(end)]
+        if start:
+            df = df[df.index >= pd.to_datetime(start)]
+        if end:
+            df = df[df.index <= pd.to_datetime(end)]
         S = df["close"].asfreq("B").fillna(method="ffill")
         iv_now = df.get("iv_entry", pd.Series(0.2, index=S.index)).asfreq("B").fillna(method="ffill")
         iv_future = df.get("iv_exit", pd.Series(0.2, index=S.index)).asfreq("B").fillna(method="ffill")

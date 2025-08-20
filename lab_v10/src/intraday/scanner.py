@@ -26,7 +26,7 @@ def detect_parabolic_backside(df: pd.DataFrame, atr_n: int=14, stretch=2.0, vol_
     # Create a simple LH condition: last peak price, then price makes a lower high and breaks that pivot low
     lh = []
     last_peak = None
-    for i, row in d.iterrows():
+    for _i, row in d.iterrows():
         if bool(row['peak']) and bool(row['parabolic']):
             last_peak = row['high']
             lh.append(False)

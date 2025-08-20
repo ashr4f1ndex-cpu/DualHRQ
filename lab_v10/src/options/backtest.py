@@ -22,8 +22,10 @@ class StraddleParams:
 def _spread_for_iv(iv: float, base_bps: float) -> float:
     if not np.isfinite(iv):
         return base_bps
-    if iv < 0.15: return base_bps * 0.8
-    if iv < 0.30: return base_bps * 1.0
+    if iv < 0.15:
+        return base_bps * 0.8
+    if iv < 0.30:
+        return base_bps * 1.0
     return base_bps * 1.4
 
 def simulate_straddle_pnl(
@@ -47,7 +49,6 @@ def simulate_straddle_pnl(
     entries = []
     costs = []
     eq = 0.0
-    dates = df.index.to_list()
     n = len(df)
     i = 0
     while i < n:

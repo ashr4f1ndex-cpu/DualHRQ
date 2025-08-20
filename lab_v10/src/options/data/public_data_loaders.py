@@ -230,7 +230,7 @@ def load_iex_cloud_data(symbol: str, token: str, start_date: str, end_date: str,
         market_vol = 0.16  # Assume 16% market volatility
         estimated_vol = abs(beta) * market_vol
 
-    except:
+    except Exception:
         # Fallback to historical volatility calculation
         returns = np.log(S / S.shift(1)).dropna()
         estimated_vol = returns.std() * np.sqrt(252)
@@ -313,7 +313,7 @@ def load_vix_data(start_date: str, end_date: str) -> pd.Series:
         vix = yf.download('^VIX', start=start_date, end=end_date)['Close']
         return vix.dropna()
 
-    except:
+    except Exception:
         # Fallback to FRED VIX data
         return load_fred_economic_data('VIXCLS', start_date, end_date)
 
@@ -617,7 +617,7 @@ def create_ensemble_features(combined_data: dict[str, tuple]) -> pd.DataFrame:
     """
     all_features = []
 
-    for source_name, (S, iv_entry, iv_exit, expiry) in combined_data.items():
+    for source_name, (S, iv_entry, iv_exit, _expiry) in combined_data.items():
         features = pd.DataFrame(index=S.index)
         features[f'{source_name}_price'] = S
         features[f'{source_name}_iv_entry'] = iv_entry

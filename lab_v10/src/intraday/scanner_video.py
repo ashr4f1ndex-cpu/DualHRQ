@@ -23,7 +23,7 @@ def _find_lower_high_triggers(d: pd.DataFrame, lookback: int=30) -> pd.DataFrame
     pivot_low = None
     lh_level = []
     signal = []
-    for i, row in d.iterrows():
+    for _i, row in d.iterrows():
         if state == "idle":
             lh_level.append(np.nan)
             signal.append(False)

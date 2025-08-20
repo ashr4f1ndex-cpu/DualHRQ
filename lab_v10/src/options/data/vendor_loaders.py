@@ -27,7 +27,8 @@ def load_cboe_datashop(csv_path: str, symbol: str=None, target_dte: int = 30):
     # column mapping
     def pick(*names):
         for n in names:
-            if n in df.columns: return n
+            if n in df.columns:
+                return n
         return None
     c_date = pick("quote_date", "date", "as_of_date")
     c_exp  = pick("expiration", "expiry")
@@ -42,8 +43,10 @@ def load_cboe_datashop(csv_path: str, symbol: str=None, target_dte: int = 30):
         raise ValueError("CSV missing required columns for Cboe DataShop loader.")
     # Normalize
     df = df.rename(columns={c_date:"date", c_exp:"expiration", c_strk:"strike"})
-    if c_iv: df = df.rename(columns={c_iv:"iv"})
-    if c_cp: df = df.rename(columns={c_cp:"cp"})
+    if c_iv:
+        df = df.rename(columns={c_iv:"iv"})
+    if c_cp:
+        df = df.rename(columns={c_cp:"cp"})
     df["date"] = pd.to_datetime(df["date"])
     df["expiration"] = pd.to_datetime(df["expiration"])
     # Underlying mid
@@ -89,7 +92,6 @@ def load_optionmetrics_ivydb(option_price_csv: str, underlying_csv: str, target_
     opt["expiration"] = pd.to_datetime(opt["expiration"])
     und["date"] = pd.to_datetime(und["date"])
     # Merge underlying to options by date
-    S_daily = und.set_index("date")["close"].astype(float).asfreq("B").ffill()
     opt = opt.merge(und, on="date", how="left")
     opt["S"] = opt["close"].astype(float)
     # ATM selection
@@ -133,8 +135,10 @@ def load_dolthub_options_csv(csv_path: str, symbol: str=None, target_dte: int=30
     if symbol and c_sym:
         df = df[df[c_sym] == symbol]
     df = df.rename(columns={c_date:"date", c_exp:"expiration", c_strk:"strike"})
-    if c_iv: df = df.rename(columns={c_iv:"iv"})
-    if c_S:  df = df.rename(columns={c_S:"S"})
+    if c_iv:
+        df = df.rename(columns={c_iv:"iv"})
+    if c_S:
+        df = df.rename(columns={c_S:"S"})
     df["date"] = pd.to_datetime(df["date"])
     df["expiration"] = pd.to_datetime(df["expiration"])
     # If no underlying column, infer S by grouping (e.g., mid of strikes around ATM) – fallback rough estimate
@@ -174,8 +178,10 @@ def load_marketdata_csv(csv_path: str, symbol: str=None, target_dte: int=30):
     if symbol and c_sym:
         df = df[df[c_sym] == symbol]
     df = df.rename(columns={c_date:"date", c_exp:"expiration", c_strk:"strike"})
-    if c_iv: df = df.rename(columns={c_iv:"iv"})
-    if c_S:  df = df.rename(columns={c_S:"S"})
+    if c_iv:
+        df = df.rename(columns={c_iv:"iv"})
+    if c_S:
+        df = df.rename(columns={c_S:"S"})
     df["date"] = pd.to_datetime(df["date"])
     df["expiration"] = pd.to_datetime(df["expiration"])
     if "S" not in df.columns:
@@ -210,8 +216,10 @@ def load_databento_csv(csv_path: str, symbol: str=None, target_dte: int=30):
     if symbol and c_sym:
         df = df[df[c_sym] == symbol]
     df = df.rename(columns={c_date:"date", c_exp:"expiration", c_strk:"strike"})
-    if c_iv: df = df.rename(columns={c_iv:"iv"})
-    if c_S:  df = df.rename(columns={c_S:"S"})
+    if c_iv:
+        df = df.rename(columns={c_iv:"iv"})
+    if c_S:
+        df = df.rename(columns={c_S:"S"})
     df["date"] = pd.to_datetime(df["date"])
     df["expiration"] = pd.to_datetime(df["expiration"])
     if "S" not in df.columns:
