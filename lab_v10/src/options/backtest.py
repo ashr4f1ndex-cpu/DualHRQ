@@ -1,6 +1,6 @@
 
 from dataclasses import dataclass
-from typing import Optional, Dict, List, Tuple
+from typing import Optional
 import pandas as pd
 import numpy as np
 from .options import simulate_atm_straddle_roundtrip
@@ -20,7 +20,7 @@ class StraddleParams:
     open_widen_bps: float = 5.0
 
 def _spread_for_iv(iv: float, base_bps: float) -> float:
-    if not np.isfinite(iv): 
+    if not np.isfinite(iv):
         return base_bps
     if iv < 0.15: return base_bps * 0.8
     if iv < 0.30: return base_bps * 1.0
@@ -33,7 +33,7 @@ def simulate_straddle_pnl(
     expiry: "pd.Series",
     signal: "pd.Series",
     params: Optional[StraddleParams] = None
-) -> Dict[str, "pd.Series"]:
+) -> dict[str, "pd.Series"]:
     if params is None:
         params = StraddleParams()
 

@@ -1,5 +1,5 @@
 
-from typing import Optional, List, Tuple
+from typing import Optional
 import pandas as pd
 from .pricing import bsm_straddle, crr_straddle, year_fraction_calendar_days
 
@@ -29,10 +29,10 @@ def simulate_atm_straddle_roundtrip(
     contracts: int = 1,
     multiplier: int = 100,
     style: str = "european",
-    dividends: Optional[List[Tuple[float,float]]] = None,
+    dividends: Optional[list[tuple[float,float]]] = None,
     session: str = "open",  # widen spreads at open
     open_widen_bps: float = 5.0
-) -> Tuple[float, float] | float:
+) -> tuple[float, float] | float:
     """
     Price an at‑the‑money straddle at entry and exit.
 

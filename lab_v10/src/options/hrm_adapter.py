@@ -23,7 +23,7 @@ proba_day = adapter.predict_intraday_proba_for_day(X_intraday, specific_day)
 
 from __future__ import annotations
 
-from typing import Dict
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
@@ -43,7 +43,7 @@ class HRMAdapter:
     ``artifacts`` will hold the trained model and scalers.
     """
 
-    def __init__(self, config: Dict):
+    def __init__(self, config: dict):
         self.config = config
         hrm_cfg = config.get("hrm", {})
         # tokenization settings
@@ -51,7 +51,7 @@ class HRMAdapter:
             daily_window=hrm_cfg.get("tokens", {}).get("daily_window", 192),
             minutes_per_day=hrm_cfg.get("tokens", {}).get("minutes_per_day", 390),
         )
-        self.artifacts: Dict[str, any] | None = None
+        self.artifacts: dict[str, any] | None = None
 
     def _build_model(self) -> HRMNet:
         hrm_cfg = self.config.get("hrm", {})

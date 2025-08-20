@@ -20,7 +20,7 @@ import pandas as pd
 import numpy as np
 import requests
 import yfinance as yf
-from typing import Optional, Tuple, Dict, List
+from typing import Optional
 import time
 from datetime import datetime, timedelta
 import logging
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 # ================ FREE DATA SOURCES ================
 
 def load_yahoo_finance_options(symbol: str, start_date: str, end_date: str, 
-                              target_dte: int = 30) -> Tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
+                              target_dte: int = 30) -> tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
     """
     Load options data using Yahoo Finance (completely free).
     
@@ -104,7 +104,7 @@ def load_yahoo_finance_options(symbol: str, start_date: str, end_date: str,
         raise
 
 def load_alpha_vantage_data(symbol: str, api_key: str, start_date: str, end_date: str,
-                           target_dte: int = 30) -> Tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
+                           target_dte: int = 30) -> tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
     """
     Load data using Alpha Vantage API (free tier: 25 calls/day).
     
@@ -172,7 +172,7 @@ def load_alpha_vantage_data(symbol: str, api_key: str, start_date: str, end_date
     return S, iv_entry, iv_exit, expiry
 
 def load_iex_cloud_data(symbol: str, token: str, start_date: str, end_date: str,
-                       target_dte: int = 30) -> Tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
+                       target_dte: int = 30) -> tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
     """
     Load data using IEX Cloud (free tier: 50k credits/month).
     
@@ -451,7 +451,7 @@ def load_news_sentiment(symbol: str, api_key: str, days_back: int = 30) -> pd.Da
 # ================ CRYPTO OPTIONS DATA ================
 
 def load_deribit_options(symbol: str = 'BTC', start_date: str = None, 
-                        end_date: str = None, target_dte: int = 30) -> Tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
+                        end_date: str = None, target_dte: int = 30) -> tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
     """
     Load cryptocurrency options data from Deribit (free API).
     
@@ -557,8 +557,8 @@ def load_deribit_options(symbol: str = 'BTC', start_date: str = None,
 
 # ================ UTILITY FUNCTIONS ================
 
-def combine_data_sources(sources: List[Dict], symbol: str, start_date: str, 
-                        end_date: str, target_dte: int = 30) -> Dict[str, Tuple]:
+def combine_data_sources(sources: list[dict], symbol: str, start_date: str, 
+                        end_date: str, target_dte: int = 30) -> dict[str, tuple]:
     """
     Combine multiple data sources for robust HRM training.
     
@@ -602,7 +602,7 @@ def combine_data_sources(sources: List[Dict], symbol: str, start_date: str,
     
     return combined_data
 
-def create_ensemble_features(combined_data: Dict[str, Tuple]) -> pd.DataFrame:
+def create_ensemble_features(combined_data: dict[str, tuple]) -> pd.DataFrame:
     """
     Create ensemble features from multiple data sources.
     
@@ -655,7 +655,7 @@ def create_ensemble_features(combined_data: Dict[str, Tuple]) -> pd.DataFrame:
 
 # ================ EXAMPLE CONFIGURATIONS ================
 
-def get_free_data_config() -> List[Dict]:
+def get_free_data_config() -> list[dict]:
     """
     Get configuration for completely free data sources.
     
@@ -669,7 +669,7 @@ def get_free_data_config() -> List[Dict]:
 
 def get_freemium_data_config(alpha_vantage_key: str = None, 
                            iex_token: str = None,
-                           news_api_key: str = None) -> List[Dict]:
+                           news_api_key: str = None) -> list[dict]:
     """
     Get configuration for freemium data sources (free tiers).
     
@@ -701,7 +701,7 @@ def get_freemium_data_config(alpha_vantage_key: str = None,
     
     return config
 
-def get_crypto_data_config() -> List[Dict]:
+def get_crypto_data_config() -> list[dict]:
     """
     Get configuration for cryptocurrency options data.
     

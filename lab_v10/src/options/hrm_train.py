@@ -15,7 +15,7 @@ support more sophisticated objectives or output heads as needed.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Tuple
+from typing import TYPE_CHECKING
 import math
 import numpy as np
 import torch
@@ -91,7 +91,7 @@ class HRMTrainer:
                 pass
         return Dummy()
 
-    def fit(self, train_dl: DataLoader, val_dl: DataLoader) -> Dict[str, float]:
+    def fit(self, train_dl: DataLoader, val_dl: DataLoader) -> dict[str, float]:
         # set up optimiser and scheduler
         opt, sched = self._make_optimizer(len(train_dl))
         best = float("inf")

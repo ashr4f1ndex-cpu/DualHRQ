@@ -18,7 +18,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import pandas as pd
-from typing import Dict, Optional, Tuple, List
+from typing import Optional
 import json
 import os
 from pathlib import Path
@@ -66,12 +66,12 @@ class PretrainedModelRegistry:
     }
     
     @classmethod
-    def list_models(cls) -> List[str]:
+    def list_models(cls) -> list[str]:
         """List available pre-trained models."""
         return list(cls.MODEL_ZOO.keys())
     
     @classmethod
-    def get_model_info(cls, model_name: str) -> Dict:
+    def get_model_info(cls, model_name: str) -> dict:
         """Get information about a specific model."""
         if model_name not in cls.MODEL_ZOO:
             raise ValueError(f"Model {model_name} not found. Available: {cls.list_models()}")
@@ -189,7 +189,7 @@ class TransferLearningManager:
     
     def load_pretrained_weights(self, model_name: str, 
                                strict: bool = False,
-                               exclude_heads: bool = True) -> Dict[str, str]:
+                               exclude_heads: bool = True) -> dict[str, str]:
         """
         Load pre-trained weights into model.
         
@@ -238,7 +238,7 @@ class TransferLearningManager:
         
         return status
     
-    def freeze_layers(self, layer_patterns: List[str]):
+    def freeze_layers(self, layer_patterns: list[str]):
         """
         Freeze specific layers by pattern matching.
         
@@ -257,7 +257,7 @@ class TransferLearningManager:
         
         logger.info(f"Frozen {frozen_count} parameters matching patterns: {layer_patterns}")
     
-    def unfreeze_layers(self, layer_patterns: List[str]):
+    def unfreeze_layers(self, layer_patterns: list[str]):
         """
         Unfreeze specific layers by pattern matching.
         
@@ -276,7 +276,7 @@ class TransferLearningManager:
         
         logger.info(f"Unfrozen {unfrozen_count} parameters matching patterns: {layer_patterns}")
     
-    def setup_progressive_unfreezing(self, schedule: List[Tuple[int, List[str]]]):
+    def setup_progressive_unfreezing(self, schedule: list[tuple[int, list[str]]]):
         """
         Setup progressive unfreezing schedule.
         
@@ -397,7 +397,7 @@ class DomainAdaptationHelper:
             for name, param in param_groups[depth]:
                 param.requires_grad = depth in layers_to_unfreeze
 
-def create_transfer_learning_config() -> Dict:
+def create_transfer_learning_config() -> dict:
     """
     Create a comprehensive transfer learning configuration.
     
@@ -434,7 +434,7 @@ def create_transfer_learning_config() -> Dict:
 class HRMTransferLearning:
     """Complete transfer learning pipeline for HRM."""
     
-    def __init__(self, target_model: HRMNet, config: Dict = None):
+    def __init__(self, target_model: HRMNet, config: dict = None):
         """
         Initialize HRM transfer learning.
         
@@ -447,7 +447,7 @@ class HRMTransferLearning:
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.transfer_manager = TransferLearningManager(target_model, self.device)
     
-    def setup_transfer_learning(self) -> Dict[str, str]:
+    def setup_transfer_learning(self) -> dict[str, str]:
         """
         Setup complete transfer learning pipeline.
         
@@ -484,7 +484,7 @@ class HRMTransferLearning:
         
         return status
     
-    def get_parameter_groups(self) -> List[Dict]:
+    def get_parameter_groups(self) -> list[dict]:
         """
         Get parameter groups with different learning rates.
         
@@ -530,7 +530,7 @@ class HRMTransferLearning:
         self.transfer_manager.apply_unfreezing_step(epoch)
 
 def load_pretrained_hrm(model_name: str = 'hrm_base_financial',
-                       target_config: HRMConfig = None) -> Tuple[HRMNet, HRMTransferLearning]:
+                       target_config: HRMConfig = None) -> tuple[HRMNet, HRMTransferLearning]:
     """
     Convenience function to load a pre-trained HRM with transfer learning setup.
     
