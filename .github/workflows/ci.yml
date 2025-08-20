@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [ main, develop ]
   push:
-    branches: [ main, develop ]
+    branches: [ "*" ]
 
 jobs:
   test:
@@ -46,7 +46,8 @@ jobs:
 
     - name: Unit tests (offline fast set)
       run: |
-        pytest -v lab_v10/tests -m "not integration" --maxfail=1 --disable-warnings
+        cd lab_v10
+        pytest -v tests src/tests -m "not integration" --maxfail=1 --disable-warnings
 
     - name: Upload test artifacts
       if: always()
