@@ -428,7 +428,7 @@ class OptionsDatasetGenerator:
         base_iv = 0.20
         iv_data = []
 
-        for i, (date, price) in enumerate(prices.items()):
+        for i, (_date, _price) in enumerate(prices.items()):
             if i == 0:
                 iv_data.append(base_iv)
                 continue
