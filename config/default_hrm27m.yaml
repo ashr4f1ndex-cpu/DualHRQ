@@ -7,3 +7,6 @@ model:
 losses:
   portfolio: { enabled: false, weight: 0.1, objective: sharpe, alpha: 0.05 }
   gradnorm: { enabled: false, alpha: 0.5, weight: 0.01 }
+
+sim:
+  use_strict_ssr_luld: true
