@@ -1,11 +1,14 @@
 
-from typing import Optional, List, Tuple
+from typing import Optional
+
 import pandas as pd
+
 from .pricing import bsm_straddle, crr_straddle, year_fraction_calendar_days
+
 
 def price_straddle(
     S: float, T: float, r: float, q: float, sigma: float,
-    style: str = "european", dividends: Optional[List[Tuple[float,float]]] = None
+    style: str = "european", dividends: Optional[list[tuple[float,float]]] = None
 ) -> float:
     if style.lower() == "american":
         return crr_straddle(S, T, r, sigma, steps=300, dividends=dividends)
@@ -29,10 +32,10 @@ def simulate_atm_straddle_roundtrip(
     contracts: int = 1,
     multiplier: int = 100,
     style: str = "european",
-    dividends: Optional[List[Tuple[float,float]]] = None,
+    dividends: Optional[list[tuple[float,float]]] = None,
     session: str = "open",  # widen spreads at open
     open_widen_bps: float = 5.0
-) -> Tuple[float, float] | float:
+) -> tuple[float, float] | float:
     """
     Price an at‑the‑money straddle at entry and exit.
 
@@ -59,14 +62,23 @@ def simulate_atm_straddle_roundtrip(
         T_entry = max(float(dte_days), 0.0) / 365.0
         T_exit = max(float(dte_days) - float(hold_days), 0.0) / 365.0
         # Spread fraction: no open widening in day‑count mode unless specified
-        spread_frac = (bid_ask_bps + open_widen_bps) / 1e4 if session == "open" else (bid_ask_bps / 1e4)
+        spread_frac = (
+            (bid_ask_bps + open_widen_bps) / 1e4 if session == "open"
+            else (bid_ask_bps / 1e4)
+        )
     elif entry_ts is not None and expiry_ts is not None and exit_ts is not None:
         # Calendar timestamp mode
         T_entry = year_fraction_calendar_days(entry_ts, expiry_ts, basis="ACT/365")
-        T_exit = max(0.0, year_fraction_calendar_days(exit_ts, expiry_ts, basis="ACT/365"))
-        spread_frac = (bid_ask_bps + (open_widen_bps if session == "open" else 0.0)) / 1e4
+        T_exit = max(
+            0.0, year_fraction_calendar_days(exit_ts, expiry_ts, basis="ACT/365")
+        )
+        spread_frac = (
+            bid_ask_bps + (open_widen_bps if session == "open" else 0.0)
+        ) / 1e4
     else:
-        raise ValueError("Either (entry_ts, expiry_ts, exit_ts) or (dte_days, hold_days) must be provided")
+        raise ValueError(
+            "Either (entry_ts, expiry_ts, exit_ts) or (dte_days, hold_days) must be provided"
+        )
 
     # Price at entry
     mid_entry = price_straddle(S_entry, T_entry, r_annual, q_annual, max(iv_entry, 1e-6), style=style, dividends=dividends)

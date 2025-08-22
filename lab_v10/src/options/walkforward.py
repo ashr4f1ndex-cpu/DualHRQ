@@ -1,10 +1,11 @@
 
-from typing import Iterator, Tuple, List
+from collections.abc import Iterator
+
 import pandas as pd
-import numpy as np
+
 
 def calendar_walkforward(index: "pd.DatetimeIndex", train_years:int=8, test_years:int=1, embargo_days:int=5
-) -> Iterator[Tuple[pd.Timestamp, pd.Timestamp, pd.Timestamp, pd.Timestamp]]:
+) -> Iterator[tuple[pd.Timestamp, pd.Timestamp, pd.Timestamp, pd.Timestamp]]:
     years = sorted(set(index.year.tolist()))
     if len(years) < train_years + test_years:
         return

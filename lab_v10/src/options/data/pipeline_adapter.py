@@ -1,8 +1,8 @@
 
 import pandas as pd
-import numpy as np
 
-def build_features_and_labels(S: pd.Series, iv_now: pd.Series, horizon:int=5, intraday_features: pd.DataFrame=None):
+
+def build_features_and_labels(S: pd.Series, iv_now: pd.Series, horizon: int=5, intraday_features: pd.DataFrame=None):
     """Daily features: returns, realized vol windows, IV level/slope + optional intraday aggregates.
     Label: future RV - current IV (proxy for IV-RV edge).
     """
@@ -22,7 +22,7 @@ def build_features_and_labels(S: pd.Series, iv_now: pd.Series, horizon:int=5, in
     fut_rv = df["ret1"].rolling(horizon).std().shift(-horizon) * (252**0.5)
     df["label"] = fut_rv - df["iv"]
     df = df.dropna()
-    features_cols = [c for c in df.columns if c not in ("label","S")]
+    features_cols = [c for c in df.columns if c not in ("label", "S")]
     features = df[features_cols]
     labels = df["label"]
     return features, labels

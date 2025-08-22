@@ -23,16 +23,14 @@ proba_day = adapter.predict_intraday_proba_for_day(X_intraday, specific_day)
 
 from __future__ import annotations
 
-from typing import Dict
-
 import numpy as np
 import pandas as pd
 import torch
-
-from .hrm_net import HRMNet, HRMConfig
-from .hrm_input import TokenConfig, FittedScalers, fit_scalers, make_h_tokens, make_l_tokens_for_day
-from .hrm_train import HRMTrainer, TrainConfig, MultiTaskDataset
 from torch.utils.data import DataLoader
+
+from .hrm_input import FittedScalers, TokenConfig, fit_scalers, make_h_tokens, make_l_tokens_for_day
+from .hrm_net import HRMConfig, HRMNet
+from .hrm_train import HRMTrainer, MultiTaskDataset, TrainConfig
 
 
 class HRMAdapter:
@@ -43,7 +41,7 @@ class HRMAdapter:
     ``artifacts`` will hold the trained model and scalers.
     """
 
-    def __init__(self, config: Dict):
+    def __init__(self, config: dict):
         self.config = config
         hrm_cfg = config.get("hrm", {})
         # tokenization settings
@@ -51,23 +49,38 @@ class HRMAdapter:
             daily_window=hrm_cfg.get("tokens", {}).get("daily_window", 192),
             minutes_per_day=hrm_cfg.get("tokens", {}).get("minutes_per_day", 390),
         )
-        self.artifacts: Dict[str, any] | None = None
+        self.artifacts: dict[str, any] | None = None
 
     def _build_model(self) -> HRMNet:
         hrm_cfg = self.config.get("hrm", {})
         h_cfg = hrm_cfg.get("h", {})
         l_cfg = hrm_cfg.get("l", {})
+        # Use exact 26.82M parameter configuration (within 27M budget)
         cfg = HRMConfig(
-            h_layers=h_cfg.get("layers", 6), h_dim=h_cfg.get("d_model", 640), h_heads=h_cfg.get("heads", 10),
-            h_ffn_mult=h_cfg.get("ffn_mult", 3.0), h_dropout=h_cfg.get("dropout", 0.1),
-            l_layers=l_cfg.get("layers", 6), l_dim=l_cfg.get("d_model", 512), l_heads=l_cfg.get("heads", 8),
-            l_ffn_mult=l_cfg.get("ffn_mult", 3.0), l_dropout=l_cfg.get("dropout", 0.1),
-            segments_N=hrm_cfg.get("segments_N", 4), l_inner_T=hrm_cfg.get("l_inner_T", 4),
-            act_enable=hrm_cfg.get("act", {}).get("enable", False),
-            act_max_segments=hrm_cfg.get("act", {}).get("max_segments", 4),
-            ponder_cost=hrm_cfg.get("act", {}).get("ponder_cost", 1e-3),
-            use_cross_attn=hrm_cfg.get("use_cross_attn", False),
+            # H-module: 4 layers, 512 d_model, 8 heads, 384 FFN
+            h_layers=h_cfg.get("layers", 4), 
+            h_dim=h_cfg.get("d_model", 512), 
+            h_heads=h_cfg.get("heads", 8),
+            h_ffn_mult=h_cfg.get("ffn_mult", 0.75),  # 384 / 512 = 0.75
+            h_dropout=h_cfg.get("dropout", 0.1),
+            # L-module: 6 layers, 768 d_model, 12 heads, 384 FFN
+            l_layers=l_cfg.get("layers", 6), 
+            l_dim=l_cfg.get("d_model", 768), 
+            l_heads=l_cfg.get("heads", 12),
+            l_ffn_mult=l_cfg.get("ffn_mult", 0.5),  # 384 / 768 = 0.5
+            l_dropout=l_cfg.get("dropout", 0.1),
+            # Training configuration
+            segments_N=hrm_cfg.get("segments_N", 4), 
+            l_inner_T=hrm_cfg.get("l_inner_T", 4),
+            act_enable=hrm_cfg.get("act", {}).get("enable", True),
+            act_max_segments=hrm_cfg.get("act", {}).get("max_segments", 8),
+            ponder_cost=hrm_cfg.get("act", {}).get("ponder_cost", 0.01),
             act_threshold=hrm_cfg.get("act", {}).get("threshold", 0.01),
+            # Architecture features
+            use_cross_attn=hrm_cfg.get("use_cross_attn", False),
+            use_heteroscedastic=hrm_cfg.get("use_heteroscedastic", True),
+            deq_style=hrm_cfg.get("deq_style", True),
+            uncertainty_weighting=hrm_cfg.get("uncertainty_weighting", True),
         )
         return HRMNet(cfg)
 
@@ -124,15 +137,20 @@ class HRMAdapter:
         yA_val = torch.from_numpy(yA.loc[val_days].values).float()
         # instantiate model and trainer
         model = self._build_model()
+        # Training configuration with new multi-task learning options
         tcfg = TrainConfig(
             lr=self.config.get("hrm", {}).get("optimizer", {}).get("lr", 1e-4),
             weight_decay=self.config.get("hrm", {}).get("regularization", {}).get("weight_decay", 0.01),
-            batch_size=self.config.get("hrm", {}).get("batch_size", 64),
-            max_epochs=self.config.get("hrm", {}).get("max_epochs", 30),
+            batch_size=self.config.get("hrm", {}).get("batch_size", 32),  # Reduced for 27M model
+            max_epochs=self.config.get("hrm", {}).get("max_epochs", 50),
             precision=self.config.get("hrm", {}).get("precision", "bf16"),
             grad_clip=self.config.get("hrm", {}).get("regularization", {}).get("grad_clip_norm", 1.0),
-            early_stop_patience=self.config.get("hrm", {}).get("early_stop_patience", 5),
+            early_stop_patience=self.config.get("hrm", {}).get("early_stop_patience", 8),
             schedule=self.config.get("hrm", {}).get("optimizer", {}).get("schedule", "cosine"),
+            # Multi-task learning configuration
+            use_gradnorm=self.config.get("hrm", {}).get("losses", {}).get("gradnorm", {}).get("enabled", False),
+            gradnorm_alpha=self.config.get("hrm", {}).get("losses", {}).get("gradnorm", {}).get("alpha", 0.5),
+            uncertainty_weighting=self.config.get("hrm", {}).get("losses", {}).get("uncertainty_weighting", True),
         )
         trainer = HRMTrainer(model, tcfg)
         train_ds = MultiTaskDataset(H_train, L_train, yA_train, yB_train)
@@ -164,9 +182,23 @@ class HRMAdapter:
             L_dummy = torch.zeros(
                 (H.shape[0], token_cfg.minutes_per_day, scalers.intraday.n_features_in_), device=device
             )
-            (_, _), segments = model(H, L_dummy)
-            outA, _, _ = segments[-1]
-            mu = outA.cpu().numpy()
+            out = model(H, L_dummy)
+            
+            # Handle different output formats
+            if model.cfg.deq_style and model.cfg.act_enable:
+                # DEQ + ACT mode: (h_tokens, l_tokens), (outA_final, outB_final, all_outputs, n_updates)
+                (_, _), (outA, _, _, _) = out
+            else:
+                # Deep supervision mode: (h_tokens, l_tokens), segments
+                (_, _), segments = out
+                outA, _, _ = segments[-1]
+            
+            # Extract mean from heteroscedastic output if needed
+            if isinstance(outA, tuple):
+                mu = outA[0].cpu().numpy()  # Use mu, ignore log_var
+            else:
+                mu = outA.cpu().numpy()
+                
         return pd.Series(mu, index=dates, name="hrm_mu")
 
     def predict_intraday_proba_for_day(
@@ -187,8 +219,17 @@ class HRMAdapter:
         with torch.no_grad():
             H = make_h_tokens(X_daily, pd.DatetimeIndex([day]), scalers, token_cfg).to(device)
             L = make_l_tokens_for_day(X_intraday, day, scalers, token_cfg).to(device)
-            (_, _), segments = model(H, L)
-            _, outB, _ = segments[-1]
+            out = model(H, L)
+            
+            # Handle different output formats
+            if model.cfg.deq_style and model.cfg.act_enable:
+                # DEQ + ACT mode
+                (_, _), (_, outB, _, _) = out
+            else:
+                # Deep supervision mode
+                (_, _), segments = out
+                _, outB, _ = segments[-1]
+                
             proba = torch.sigmoid(outB.squeeze(0)).cpu().numpy()
         return pd.Series([proba], index=[day], name="hrm_intraday_proba")
 

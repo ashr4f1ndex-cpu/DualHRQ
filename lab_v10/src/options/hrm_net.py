@@ -22,11 +22,9 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-
-from ..common.act import act_ponder_penalty, q_head_loss
 
 
 def rope_freqs(T: int, D: int, base: float = 10000.0, device=None):
@@ -238,6 +236,10 @@ class HRMConfig:
     act_max_segments: int
     ponder_cost: float
     use_cross_attn: bool = False
+    use_heteroscedastic: bool = True
+    act_threshold: float = 0.01
+    deq_style: bool = True  # Enable DEQ-style training
+    uncertainty_weighting: bool = True  # Enable uncertainty-based loss weighting
 
     # by default, cross attention is off; when enabled, the L-module
     # will attend to the H-module state via a CrossAttention layer.
@@ -246,8 +248,17 @@ class HRMConfig:
 class HRMNet(nn.Module):
     """Simplified HRM with FiLM conditioning and deep supervision."""
 
-    def __init__(self, cfg: HRMConfig):
+    def __init__(self, cfg: HRMConfig = None):
         super().__init__()
+        if cfg is None:
+            # Default config targeting exactly 26.82M params (within 27M budget)
+            cfg = HRMConfig(
+                h_layers=4, h_dim=512, h_heads=8, h_ffn_mult=0.75, h_dropout=0.1,  # 384 FFN = 0.75 * 512
+                l_layers=6, l_dim=768, l_heads=12, l_ffn_mult=0.5, l_dropout=0.1,   # 384 FFN = 0.5 * 768
+                segments_N=4, l_inner_T=16, act_enable=True, act_max_segments=8,
+                ponder_cost=0.01, use_cross_attn=False, use_heteroscedastic=True,
+                act_threshold=0.01, deq_style=True, uncertainty_weighting=True
+            )
         self.cfg = cfg
         # H- and L-encoders
         self.h_enc = Encoder(cfg.h_layers, cfg.h_dim, cfg.h_heads, cfg.h_ffn_mult, cfg.h_dropout)
@@ -259,7 +270,13 @@ class HRMNet(nn.Module):
         # Optional cross attention from L tokens to H tokens
         self.cross_attn = CrossAttention(cfg.l_dim, cfg.h_dim, cfg.l_heads) if cfg.use_cross_attn else None
         # Heads for the two tasks
-        self.headA = nn.Linear(cfg.h_dim, 1, bias=False)
+        if cfg.use_heteroscedastic:
+            # Heteroscedastic Head-A: outputs both mu and log_var
+            self.headA_mu = nn.Linear(cfg.h_dim, 1, bias=False)
+            self.headA_logvar = nn.Linear(cfg.h_dim, 1, bias=False)
+        else:
+            self.headA = nn.Linear(cfg.h_dim, 1, bias=False)
+        
         self.headB = nn.Linear(cfg.l_dim, 1, bias=False)
         # ACT Q-head: two logits [continue, halt]
         self.q_head = nn.Linear(cfg.h_dim, 2, bias=False)
@@ -307,14 +324,29 @@ class HRMNet(nn.Module):
         l_tokens = self.l_enc(cond_l, rope_l)
         # heads: compute pooled outputs
         l_pool = self._pool(self.l_norm(l_tokens))
-        outA = self.headA(h_pool).squeeze(-1)  # shape [B]
+        
+        # Head-A output (heteroscedastic if enabled)
+        if self.cfg.use_heteroscedastic:
+            outA_mu = self.headA_mu(h_pool).squeeze(-1)  # shape [B]
+            outA_logvar = self.headA_logvar(h_pool).squeeze(-1)  # shape [B]
+            outA = (outA_mu, outA_logvar)
+        else:
+            outA = self.headA(h_pool).squeeze(-1)  # shape [B]
+            
         outB = self.headB(l_pool).squeeze(-1)  # shape [B]
         # Q-head logits for ACT: predicts [continue, halt]
         q_logits = self.q_head(h_pool)
         return (h_tokens, l_tokens), (outA, outB, q_logits)
 
     def forward(self, h_tokens: torch.Tensor, l_tokens: torch.Tensor) -> tuple:
-        """Run the HRM for N*T-1 steps without gradient and one step with gradient."""
+        """Run the HRM with DEQ-style training and adaptive computation."""
+        if self.cfg.deq_style:
+            return self._forward_deq_style(h_tokens, l_tokens)
+        else:
+            return self._forward_fixed_steps(h_tokens, l_tokens)
+    
+    def _forward_fixed_steps(self, h_tokens: torch.Tensor, l_tokens: torch.Tensor) -> tuple:
+        """Original fixed-step forward with deep supervision."""
         N = self.cfg.segments_N
         T = self.cfg.l_inner_T
         segments = []
@@ -328,3 +360,91 @@ class HRMNet(nn.Module):
         (h_tokens, l_tokens), heads = self._forward_once(h_tokens, l_tokens)
         segments.append(heads)
         return (h_tokens, l_tokens), segments
+    
+    def _forward_deq_style(self, h_tokens: torch.Tensor, l_tokens: torch.Tensor) -> tuple:
+        """DEQ-style forward with one-step gradient approximation and ACT halting."""
+        B = h_tokens.shape[0]
+        device = h_tokens.device
+        
+        # Initialize ACT state
+        halted = torch.zeros(B, dtype=torch.bool, device=device)
+        remainders = torch.zeros(B, device=device)
+        n_updates = torch.zeros(B, device=device)
+        
+        # Store outputs for each step
+        all_outputs = []
+        step = 0
+        max_steps = self.cfg.act_max_segments
+        
+        # DEQ-style iteration with ACT halting
+        while not halted.all() and step < max_steps:
+            # Forward step (detached for memory efficiency except last)
+            if step < max_steps - 1:
+                with torch.no_grad():
+                    (h_tokens_new, l_tokens_new), (outA, outB, q_logits) = self._forward_once(h_tokens, l_tokens)
+                    h_tokens_new = h_tokens_new.detach()
+                    l_tokens_new = l_tokens_new.detach()
+            else:
+                # Final step with gradients
+                (h_tokens_new, l_tokens_new), (outA, outB, q_logits) = self._forward_once(h_tokens, l_tokens)
+            
+            # ACT halting decision
+            p_halt = torch.sigmoid(q_logits[:, 1])  # probability of halting
+            
+            # Update halted mask and remainders
+            still_running = ~halted
+            p_halt_running = p_halt[still_running]
+            
+            # Determine which examples should halt this step
+            should_halt = (remainders[still_running] + p_halt_running) > self.cfg.act_threshold
+            
+            # Update outputs with weighted contributions
+            if step == 0:
+                # Initialize accumulated outputs
+                if isinstance(outA, tuple):
+                    acc_outA_mu = torch.zeros_like(outA[0])
+                    acc_outA_logvar = torch.zeros_like(outA[1])
+                    acc_outA = (acc_outA_mu, acc_outA_logvar)
+                else:
+                    acc_outA = torch.zeros_like(outA)
+                acc_outB = torch.zeros_like(outB)
+            
+            # Accumulate weighted outputs
+            weights = torch.where(should_halt, 1.0 - remainders[still_running], p_halt_running)
+            
+            if isinstance(outA, tuple):
+                acc_outA[0][still_running] += weights * outA[0][still_running]
+                acc_outA[1][still_running] += weights * outA[1][still_running]
+            else:
+                acc_outA[still_running] += weights * outA[still_running]
+            acc_outB[still_running] += weights * outB[still_running]
+            
+            # Update remainders and halted status
+            remainders[still_running] += p_halt_running
+            newly_halted = still_running.clone()
+            newly_halted[still_running] = should_halt
+            halted = halted | newly_halted
+            
+            # Track number of updates per example
+            n_updates[still_running] += 1
+            
+            # Store outputs for this step
+            all_outputs.append((outA, outB, q_logits))
+            
+            # Update states
+            h_tokens = h_tokens_new
+            l_tokens = l_tokens_new
+            step += 1
+        
+        # Handle any remaining probability mass
+        still_running = ~halted
+        if still_running.any():
+            if isinstance(acc_outA, tuple):
+                acc_outA[0][still_running] += remainders[still_running] * outA[0][still_running]
+                acc_outA[1][still_running] += remainders[still_running] * outA[1][still_running]
+            else:
+                acc_outA[still_running] += remainders[still_running] * outA[still_running]
+            acc_outB[still_running] += remainders[still_running] * outB[still_running]
+        
+        # Return accumulated outputs and metadata
+        return (h_tokens, l_tokens), (acc_outA, acc_outB, all_outputs, n_updates)

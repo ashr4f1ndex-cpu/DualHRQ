@@ -1,17 +1,26 @@
 
 import argparse
-import pandas as pd
-from .data.options_chain_adapter import load_chain_series
-from .data.vendor_loaders import load_cboe_datashop, load_optionmetrics_ivydb, load_dolthub_options_csv, load_marketdata_csv, load_databento_csv
-from .data.pipeline_adapter import build_features_and_labels
-from .hrm_adapter import HRMModel
-from .walkforward import calendar_walkforward
-from .backtest import simulate_straddle_pnl, StraddleParams
-from .reporting import write_reports
-from ..common.metrics import summarize
-from .baselines.strategies import always_long_signal, iv_slope_long_signal
 
-def run(start:str, end:str, outdir:str="reports/options", trials:int=5, style:str="european", vendor:str=None, csv:str=None, underlying_csv:str=None, symbol:str=None):
+import pandas as pd
+
+from ..common.metrics import summarize
+from .backtest import StraddleParams, simulate_straddle_pnl
+from .baselines.strategies import always_long_signal, iv_slope_long_signal
+from .data.options_chain_adapter import load_chain_series
+from .data.pipeline_adapter import build_features_and_labels
+from .data.vendor_loaders import (
+    load_cboe_datashop,
+    load_databento_csv,
+    load_dolthub_options_csv,
+    load_marketdata_csv,
+    load_optionmetrics_ivydb,
+)
+from .hrm_adapter import HRMModel
+from .reporting import write_reports
+from .walkforward import calendar_walkforward
+
+
+def run(start: str, end: str, outdir: str="reports/options", trials: int=5, style: str="european", vendor: str=None, csv: str=None, underlying_csv: str=None, symbol: str=None):
     if vendor == 'cboe':
         if not csv:
             raise SystemExit("--csv required for vendor=cboe")
@@ -35,7 +44,9 @@ def run(start:str, end:str, outdir:str="reports/options", trials:int=5, style:st
     else:
         S, iv_now, iv_future, expiry = load_chain_series(None, start, end)
     features, labels = build_features_and_labels(S, iv_now, horizon=5)
-    idx = features.index.intersection(labels.index).intersection(S.index).intersection(iv_now.index).intersection(iv_future.index).intersection(expiry.index)
+    idx = (features.index.intersection(labels.index).intersection(S.index)
+           .intersection(iv_now.index).intersection(iv_future.index)
+           .intersection(expiry.index))
     S, iv_now, iv_future, expiry = S.loc[idx], iv_now.loc[idx], iv_future.loc[idx], expiry.loc[idx]
     features, labels = features.loc[idx], labels.loc[idx]
 
@@ -63,13 +74,20 @@ def run(start:str, end:str, outdir:str="reports/options", trials:int=5, style:st
         sig_ivslp = iv_slope_long_signal(iv_now.loc[X_te.index])
 
         # Backtests
-        for name, sig in [("HRM", signal_hrm), ("AlwaysLong", sig_always), ("IVSlope", sig_ivslp)]:
-            bt = simulate_straddle_pnl(S[te_mask], iv_now[te_mask], iv_future[te_mask], expiry[te_mask], sig, params)
+        for name, sig in [
+            ("HRM", signal_hrm), ("AlwaysLong", sig_always), ("IVSlope", sig_ivslp)
+        ]:
+            bt = simulate_straddle_pnl(
+                S[te_mask], iv_now[te_mask], iv_future[te_mask],
+                expiry[te_mask], sig, params
+            )
             pnl, equity, costs = bt["pnl"], bt["equity"], bt["costs"]
             if name == "HRM":
                 all_pnl.loc[pnl.index] += pnl
                 # rebuild equity cumulatively on global index
-                all_equity.loc[equity.index] = all_equity.loc[equity.index].add(pnl, fill_value=0).cumsum()
+                all_equity.loc[equity.index] = (
+                    all_equity.loc[equity.index].add(pnl, fill_value=0).cumsum()
+                )
                 all_costs.loc[costs.index] += costs
                 fold_stats.append(summarize(pnl, equity, label=f"{te_s.date()}_{te_e.date()}", trials=trials))
 

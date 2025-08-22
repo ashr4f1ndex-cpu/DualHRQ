@@ -1,14 +1,18 @@
 
 from __future__ import annotations
-import pandas as pd, numpy as np
+
 from dataclasses import dataclass
+
+import numpy as np
+import pandas as pd
+
 
 @dataclass
 class SSRState:
     active_until: pd.Timestamp | None = None
 
 def compute_ssr_states(df: pd.DataFrame) -> pd.Series:
-    assert {'low','prev_close'}.issubset(df.columns)
+    assert {'low', 'prev_close'}.issubset(df.columns)
     ssr = pd.Series(False, index=df.index)
     by_day = df.groupby(df.index.date)
     for day, d in by_day:
@@ -21,7 +25,7 @@ def compute_ssr_states(df: pd.DataFrame) -> pd.Series:
             ssr.loc[ssr.index[nxt]] = True
     return ssr
 
-def luld_bands(ref_price: pd.Series, pct: float, ts: pd.Series) -> tuple[pd.Series,pd.Series]:
+def luld_bands(ref_price: pd.Series, pct: float, ts: pd.Series) -> tuple[pd.Series, pd.Series]:
     upper = ref_price * (1 + pct)
     lower = ref_price * (1 - pct)
     minutes = ts.dt.time
@@ -39,7 +43,7 @@ def simulate_short_with_constraints(df: pd.DataFrame, signal: pd.Series,
     df = df.copy().sort_index()
     sig = signal.reindex(df.index).fillna(0).astype(bool)
     if apply_ssr:
-        df['SSR'] = compute_ssr_states(df[['low','prev_close']])
+        df['SSR'] = compute_ssr_states(df[['low', 'prev_close']])
     else:
         df['SSR'] = False
     if apply_luld:
@@ -66,6 +70,6 @@ def simulate_short_with_constraints(df: pd.DataFrame, signal: pd.Series,
         trades.append((ts, float(fill), float(out), float(trade_pnl)))
     pnl = pd.Series(pnl, index=df.index, name="pnl")
     equity = pnl.cumsum().rename("equity")
-    trades_df = (pd.DataFrame(trades, columns=["timestamp","fill","out","pnl"]).set_index("timestamp")
-                 if trades else pd.DataFrame(columns=["fill","out","pnl"]))
+    trades_df = (pd.DataFrame(trades, columns=["timestamp", "fill", "out", "pnl"]).set_index("timestamp")
+                 if trades else pd.DataFrame(columns=["fill", "out", "pnl"]))
     return pnl, equity, trades_df

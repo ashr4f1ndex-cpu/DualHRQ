@@ -1,6 +1,6 @@
 
-import pandas as pd
 from ..options.options import simulate_atm_straddle_roundtrip
+
 
 def test_theta_bleed_flat():
     # If S and IV constant, long straddle should decay

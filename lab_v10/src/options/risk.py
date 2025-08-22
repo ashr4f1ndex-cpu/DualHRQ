@@ -1,6 +1,6 @@
 
-import numpy as np
 import pandas as pd
+
 
 def vol_target_sizer(signal: pd.Series, target_daily_vol: float = 0.01, est_vol: float = 0.02, max_contracts:int=5):
     """Position size proportional to conviction, scaled to target volatility.

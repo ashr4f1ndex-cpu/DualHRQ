@@ -1,9 +1,13 @@
 name: CI
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: ["*"]
   push:
-    branches: [ main, develop ]
+    branches: ["*"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -21,38 +25,35 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Cache pip
+      id: deps-cache
       uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/ci-requirements.txt') }}
+        key: ${{ runner.os }}-ci-${{ hashFiles('**/ci-requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-pip-
+          ${{ runner.os }}-ci-
 
-    - name: Install minimal deps for CI
+    - name: Install deps
+      if: steps.deps-cache.outputs.cache-hit != 'true'
       run: |
         python -m pip install --upgrade pip
         pip install -r ci-requirements.txt
 
-    - name: Ruff (lint & format check)
+    - name: Lint / Type / Sec (type/sec non-blocking)
       run: |
         ruff check lab_v10/src --fix
         ruff format lab_v10/src --check
+        mypy lab_v10/src --ignore-missing-imports || true
+        bandit -r lab_v10/src -f json -o bandit-report.json || true
 
-    - name: Mypy (non-blocking)
-      run: mypy lab_v10/src --ignore-missing-imports || true
-
-    - name: Bandit (non-blocking)
-      run: bandit -r lab_v10/src -f json -o bandit-report.json || true
-
-    - name: Unit tests (offline fast set)
+    - name: Tests (offline)
       run: |
-        pytest -v lab_v10/tests -m "not integration" --maxfail=1 --disable-warnings
+        cd lab_v10
+        pytest -v tests src/tests -m "not integration" --maxfail=1 --disable-warnings
 
     - name: Upload test artifacts
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: test-artifacts-${{ matrix.python-version }}
-        path: |
-          bandit-report.json
-          ./**/pytest-*.log
+        path: bandit-report.json

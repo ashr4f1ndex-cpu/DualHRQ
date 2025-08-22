@@ -1,0 +1,83 @@
+# Enhanced HRM Training Configuration
+# Comprehensive dual-book feature engineering pipeline
+
+# Feature Engineering Configuration
+enable_options_features: true        # Enable IV term structure, Greeks, volatility regimes
+enable_intraday_features: true       # Enable VWAP, ATR, SSR gates, LULD mechanics
+enable_corporate_actions: true       # Enable CRSP-style corporate action adjustments
+enable_leakage_prevention: true      # Enable CPCV with purging/embargo
+
+# Cross-Validation Settings
+cv_method: "cpcv"                    # "cpcv" or "walkforward" 
+n_splits: 6                          # Number of groups for CPCV
+n_test_groups: 2                     # Number of test groups per fold
+purge_hours: 1                       # Purge period in hours
+embargo_hours: 2                     # Embargo period in hours
+
+# Token Configuration
+daily_window: 192                    # Daily lookback window (days)
+minutes_per_day: 390                 # Intraday minutes per day
+robust_scaling: false                # Use RobustScaler instead of StandardScaler
+feature_selection: true              # Enable automatic feature selection
+max_features: 100                    # Maximum number of features to use
+
+# Model Architecture
+d_embed: 128                         # Embedding dimension
+n_layers: 6                          # Number of transformer layers
+n_heads: 8                           # Number of attention heads
+use_heteroscedastic: true            # Enable heteroscedastic regression
+deq_style: true                      # Enable DEQ-style fixed-point iterations
+act_enable: true                     # Enable Adaptive Computation Time
+
+# Training Parameters
+learning_rate: 1e-4                  # Learning rate
+batch_size: 32                       # Batch size
+max_epochs: 50                       # Maximum training epochs
+early_stop_patience: 10              # Early stopping patience
+use_gradnorm: true                   # Enable GradNorm for multi-task learning
+uncertainty_weighting: true          # Enable uncertainty weighting
+
+# Feature Engineering Details
+options_features:
+  iv_lookback_windows: [1, 5, 21, 63]   # IV volatility windows
+  volatility_regime_windows: [10, 20, 50] # Volatility regime detection windows
+  min_option_volume: 10                   # Minimum option volume threshold
+  
+intraday_features:
+  atr_periods: [14, 20, 50]               # ATR calculation periods
+  vwap_reset_freq: "D"                    # VWAP reset frequency
+  luld_price_tier: "tier1"                # LULD price tier (tier1, tier2, low_price)
+  include_momentum: true                   # Include momentum indicators
+  include_mean_reversion: true             # Include mean reversion indicators
+
+# Data Alignment
+primary_market: "equity"                  # Primary market calendar
+reference_timezone: "America/New_York"   # Reference timezone
+target_frequency: "1min"                 # Target data frequency
+fill_market_gaps: true                   # Fill gaps during market hours
+
+# Corporate Actions
+adjustment_method: "total_return"         # "total_return", "price_only", "split_only"
+include_special_dividends: true           # Include special dividends in adjustments
+min_dividend_threshold: 0.01              # Minimum dividend amount for adjustment
+
+# Risk Management
+max_position_size: 1000000               # Maximum position size
+max_drawdown: 0.20                       # Maximum allowed drawdown
+risk_free_rate: 0.05                     # Risk-free rate for calculations
+
+# Output Configuration
+save_predictions: true                    # Save model predictions
+save_features: true                      # Save engineered features
+output_dir: "outputs/"                   # Output directory
+model_checkpoint_freq: 10                # Model checkpoint frequency (epochs)
+
+# Logging
+log_level: "INFO"                        # Logging level
+log_file: "training.log"                 # Log file path
+tensorboard_log: true                    # Enable TensorBoard logging
+
+# Validation
+validate_feature_quality: true           # Validate feature quality
+audit_leakage: true                      # Audit for data leakage
+save_validation_reports: true            # Save validation reports

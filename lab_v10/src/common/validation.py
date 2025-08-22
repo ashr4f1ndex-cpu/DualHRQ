@@ -25,14 +25,13 @@ combinational_purged_cv
 """
 from __future__ import annotations
 
-from typing import List, Tuple
 import numpy as np
 import pandas as pd
 
 
 def purge_embargo_splits(
     dates: pd.Series, n_splits: int, embargo_days: int = 5
-) -> List[Tuple[np.ndarray, np.ndarray]]:
+) -> list[tuple[np.ndarray, np.ndarray]]:
     """Return purged cross validation splits with embargo.
 
     Parameters
@@ -48,7 +47,7 @@ def purge_embargo_splits(
 
     Returns
     -------
-    List[Tuple[np.ndarray, np.ndarray]]
+    list[tuple[np.ndarray, np.ndarray]]
         A list of (train_indices, test_indices) tuples where each
         element contains the integer indices into `dates` belonging to
         the training and test sets respectively.
@@ -80,7 +79,7 @@ def combinational_purged_cv(
     n_splits: int = 5,
     k_folds: int = 2,
     embargo_days: int = 5,
-) -> List[Tuple[np.ndarray, np.ndarray]]:
+) -> list[tuple[np.ndarray, np.ndarray]]:
     """Return combinational purged cross validation splits.
 
     CPCV is a form of cross validation for time series that tests the
@@ -104,7 +103,7 @@ def combinational_purged_cv(
 
     Returns
     -------
-    List[Tuple[np.ndarray, np.ndarray]]
+    list[tuple[np.ndarray, np.ndarray]]
         A list of (train_indices, test_indices) tuples where each
         element contains the integer indices into `dates` belonging to
         the training and test sets respectively.

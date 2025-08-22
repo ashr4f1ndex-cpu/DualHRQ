@@ -25,7 +25,7 @@ Example
 
 >>> import torch
 >>> from src.common.portfolio_loss import sharpe_loss
->>> r = torch.tensor([[0.01, -0.02, 0.03],[0.02, -0.01, 0.01]])
+>>> r = torch.tensor([[0.01, -0.02, 0.03], [0.02, -0.01, 0.01]])
 >>> sharpe_loss(r)
 tensor(???)
 
@@ -39,7 +39,6 @@ for evaluating a trading strategy with a realistic simulator.
 
 from __future__ import annotations
 
-import math
 import torch
 import torch.nn.functional as F
 

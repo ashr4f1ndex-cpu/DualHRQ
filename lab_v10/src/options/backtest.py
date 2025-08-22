@@ -1,9 +1,12 @@
 
 from dataclasses import dataclass
-from typing import Optional, Dict, List, Tuple
-import pandas as pd
+from typing import Optional
+
 import numpy as np
+import pandas as pd
+
 from .options import simulate_atm_straddle_roundtrip
+
 
 @dataclass
 class StraddleParams:
@@ -20,10 +23,12 @@ class StraddleParams:
     open_widen_bps: float = 5.0
 
 def _spread_for_iv(iv: float, base_bps: float) -> float:
-    if not np.isfinite(iv): 
+    if not np.isfinite(iv):
         return base_bps
-    if iv < 0.15: return base_bps * 0.8
-    if iv < 0.30: return base_bps * 1.0
+    if iv < 0.15:
+        return base_bps * 0.8
+    if iv < 0.30:
+        return base_bps * 1.0
     return base_bps * 1.4
 
 def simulate_straddle_pnl(
@@ -33,7 +38,7 @@ def simulate_straddle_pnl(
     expiry: "pd.Series",
     signal: "pd.Series",
     params: Optional[StraddleParams] = None
-) -> Dict[str, "pd.Series"]:
+) -> dict[str, "pd.Series"]:
     if params is None:
         params = StraddleParams()
 
@@ -42,9 +47,11 @@ def simulate_straddle_pnl(
     }).dropna()
 
     df["enter"] = (df["signal"] > params.threshold).astype(int)
-    pnl = []; equity = []; entries = []; costs = []
+    pnl = []
+    equity = []
+    entries = []
+    costs = []
     eq = 0.0
-    dates = df.index.to_list()
     n = len(df)
     i = 0
     while i < n:
@@ -75,11 +82,24 @@ def simulate_straddle_pnl(
                 open_widen_bps=params.open_widen_bps
             )
             for k in range(i, j):
-                pnl.append(0.0); costs.append(0.0); eq += 0.0; equity.append(eq); entries.append(1 if k==i else 0)
-            pnl.append(trade_pnl); costs.append(trade_cost); eq += trade_pnl; equity.append(eq); entries.append(0)
+                pnl.append(0.0)
+                costs.append(0.0)
+                eq += 0.0
+                equity.append(eq)
+                entries.append(1 if k==i else 0)
+            pnl.append(trade_pnl)
+            costs.append(trade_cost)
+            eq += trade_pnl
+            equity.append(eq)
+            entries.append(0)
             i = j + 1
         else:
-            pnl.append(0.0); costs.append(0.0); eq += 0.0; equity.append(eq); entries.append(0); i += 1
+            pnl.append(0.0)
+            costs.append(0.0)
+            eq += 0.0
+            equity.append(eq)
+            entries.append(0)
+            i += 1
     pnl_s = pd.Series(pnl, index=df.index[:len(pnl)])
     eq_s = pd.Series(equity, index=df.index[:len(equity)])
     ent_s = pd.Series(entries, index=df.index[:len(entries)])
