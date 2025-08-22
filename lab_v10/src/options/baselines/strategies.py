@@ -1,6 +1,7 @@
 
 import pandas as pd
 
+
 def always_long_signal(index: pd.DatetimeIndex) -> pd.Series:
     return pd.Series(1.0, index=index)
 

@@ -1,6 +1,7 @@
 
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 
 def ssr_active(prev_close: float, low_today: float) -> bool:
     return (low_today <= prev_close * 0.9)

@@ -2,6 +2,7 @@
 import math
 from typing import Optional
 
+
 # ---- Black-Scholes-Merton with dividend yield q ----
 def _norm_cdf(x: float) -> float:
     return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))

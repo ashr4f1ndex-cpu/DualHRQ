@@ -1,7 +1,7 @@
 
+
 import pandas as pd
-import numpy as np
-from pathlib import Path
+
 
 def _nearest_dte(group: pd.DataFrame, target_days: int = 30):
     # pick contract whose expiration days-from-date is closest to target_days
@@ -120,8 +120,8 @@ def load_dolthub_options_csv(csv_path: str, symbol: str=None, target_dte: int=30
     Expected flexible columns (best-effort): date, expiration/expiry, strike, call/put (cp), iv/iv_mid/implied_volatility, underlying price (underlying/close/price).
     Filter by `symbol` if provided via a column like `act_symbol` or `symbol`.
     """
-    import pandas as pd, numpy as np
-    from datetime import timedelta
+
+    import pandas as pd
     df = pd.read_csv(csv_path)
     # Flexible column mapping
     c_date = _flex_pick(df, "date", "as_of_date", "quote_date")

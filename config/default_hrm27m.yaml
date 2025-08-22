@@ -1,6 +1,6 @@
 model:
-  h: { d_model: 512, n_layers: 4, n_heads: 8, ffn_mult: 2 }
-  l: { d_model: 768, n_layers: 6, n_heads: 12, ffn_mult: 2 }
+  h: { d_model: 512, n_layers: 4, n_heads: 8, ffn_mult: 0.75 }  # 384 FFN
+  l: { d_model: 768, n_layers: 6, n_heads: 12, ffn_mult: 0.5 }   # 384 FFN
   use_cross_attn: false
   use_film: true
   act: { max_steps: 3, ponder_cost: 0.01 }

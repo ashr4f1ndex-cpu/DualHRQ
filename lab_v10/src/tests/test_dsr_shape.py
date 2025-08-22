@@ -1,7 +1,9 @@
 
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 from ..common.metrics import deflated_sharpe, sharpe
+
 
 def test_deflated_sharpe_not_exceed_sample_sharpe():
     """The deflated Sharpe ratio should not exceed the sample Sharpe ratio on IID data."""

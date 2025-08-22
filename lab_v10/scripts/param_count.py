@@ -1,5 +1,7 @@
-import sys, os
-# Add lab_v10 to path for imports  
+import os
+import sys
+
+# Add lab_v10 to path for imports
 lab_v10_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, lab_v10_path)
 

@@ -16,14 +16,12 @@ Features:
 - Crypto options (Deribit free API)
 """
 
-import pandas as pd
+import logging
+
 import numpy as np
+import pandas as pd
 import requests
 import yfinance as yf
-from typing import Optional
-import time
-from datetime import datetime, timedelta
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -395,6 +393,7 @@ def load_news_sentiment(symbol: str, api_key: str, days_back: int = 30) -> pd.Da
     """
     try:
         from datetime import datetime, timedelta
+
         from textblob import TextBlob
 
         end_date = datetime.now()

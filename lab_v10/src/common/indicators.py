@@ -24,8 +24,9 @@ Notes
 
 from __future__ import annotations
 
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 
 def vwap(price: pd.Series | pd.DataFrame, volume: pd.Series | None = None) -> pd.Series:
     """Compute the volume weighted average price (VWAP).

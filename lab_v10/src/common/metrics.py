@@ -1,8 +1,9 @@
 
+
 import numpy as np
 import pandas as pd
-from math import sqrt
-from scipy.stats import skew, kurtosis, norm
+from scipy.stats import kurtosis, norm, skew
+
 
 def sharpe(pnl_series: pd.Series, periods_per_year: int = 252) -> float:
     """Compute the annualised Sharpe ratio of a P&L series.

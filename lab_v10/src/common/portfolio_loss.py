@@ -39,7 +39,6 @@ for evaluating a trading strategy with a realistic simulator.
 
 from __future__ import annotations
 
-import math
 import torch
 import torch.nn.functional as F
 

@@ -14,20 +14,17 @@ Features:
 - Domain adaptation methods
 """
 
+import hashlib
+import json
+import logging
+from pathlib import Path
+from urllib.request import urlretrieve
+
 import torch
 import torch.nn as nn
-import numpy as np
-import pandas as pd
-from typing import Optional
-import json
-import os
-from pathlib import Path
-import logging
-from urllib.request import urlretrieve
-import hashlib
 
-from .hrm_net import HRMNet, HRMConfig
 from ..common.determinism import set_deterministic_mode
+from .hrm_net import HRMConfig, HRMNet
 
 logger = logging.getLogger(__name__)
 
@@ -394,7 +391,7 @@ class DomainAdaptationHelper:
         layers_to_unfreeze = sorted_depths[:current_stage + 1]
 
         for depth in sorted_depths:
-            for name, param in param_groups[depth]:
+            for _name, param in param_groups[depth]:
                 param.requires_grad = depth in layers_to_unfreeze
 
 def create_transfer_learning_config() -> dict:

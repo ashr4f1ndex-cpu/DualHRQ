@@ -1,18 +1,19 @@
 
 import argparse
-import pandas as pd
-import numpy as np
 from pathlib import Path
-from ..common.metrics import sharpe, max_drawdown
-from datetime import datetime, timedelta
+
+import numpy as np
+import pandas as pd
+
+from ..intraday.aggregate_daily import aggregate_intraday_features
+from ..intraday.backtest_intraday import simulate_intraday_backside_short
+
+# Intraday components
+from ..intraday.scanner_video import detect_parabolic_reversal
 
 # Options book
 from ..options.main_v3 import run as run_options
 
-# Intraday components
-from ..intraday.scanner_video import detect_parabolic_reversal
-from ..intraday.backtest_intraday import simulate_intraday_backside_short
-from ..intraday.aggregate_daily import aggregate_intraday_features
 
 def _synth_minute(symbol: str, start: str, end: str, seed: int=42):
     """Synthetic 1-minute bars for demonstration; replace with real feed.    Creates a noisy intraday series per business day."""
@@ -35,7 +36,6 @@ def run_portfolio(start: str, end: str, allocation_options: float=0.7, dynamic: 
     # Run options book to produce reports (Book A)
     run_options(start, end, outdir="reports/options")
     pnl_opt = pd.read_csv("reports/options/pnl.csv", index_col=0, parse_dates=True).iloc[:, 0]
-    eq_opt  = pd.read_csv("reports/options/equity_curve.csv", index_col=0, parse_dates=True).iloc[:, 0]
 
     # Book B intraday
     if minute_csv and Path(minute_csv).exists():

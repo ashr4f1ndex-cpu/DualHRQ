@@ -1,11 +1,11 @@
 def test_param_budget():
-    import sys
     import os
+    import sys
     # Add lab_v10 to path for imports
     lab_v10_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if lab_v10_path not in sys.path:
         sys.path.insert(0, lab_v10_path)
-    
+
     try:
         from src.options.hrm_net import HRMNet
         model = HRMNet()

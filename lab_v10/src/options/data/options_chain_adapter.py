@@ -1,7 +1,8 @@
 
-import pandas as pd
-import numpy as np
 from pathlib import Path
+
+import numpy as np
+import pandas as pd
 
 CSV_SCHEMA = """
 # Option chain daily snapshot schema (example)

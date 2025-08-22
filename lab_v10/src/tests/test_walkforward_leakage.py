@@ -1,6 +1,8 @@
 
 import pandas as pd
+
 from ..options.walkforward import calendar_walkforward
+
 
 def test_embargo_strict():
     idx = pd.date_range("2020-01-01", "2024-12-31", freq="B")

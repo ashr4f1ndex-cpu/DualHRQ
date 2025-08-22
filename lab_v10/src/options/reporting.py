@@ -1,7 +1,10 @@
 
 import json
+
 import pandas as pd
+
 from ..common.metrics import summarize
+
 
 def write_reports(outdir: str, fold_stats: list, equity: pd.Series, pnl: pd.Series, trials: int=1, costs: pd.Series=None, baselines: dict=None):
     overall = summarize(pnl, equity, label="overall", trials=trials)

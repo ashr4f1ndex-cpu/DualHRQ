@@ -1,7 +1,8 @@
 
-from typing import Iterator
+from collections.abc import Iterator
+
 import pandas as pd
-import numpy as np
+
 
 def calendar_walkforward(index: "pd.DatetimeIndex", train_years:int=8, test_years:int=1, embargo_days:int=5
 ) -> Iterator[tuple[pd.Timestamp, pd.Timestamp, pd.Timestamp, pd.Timestamp]]:

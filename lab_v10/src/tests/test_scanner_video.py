@@ -1,7 +1,9 @@
 
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 from ..intraday.scanner_video import detect_parabolic_reversal
+
 
 def test_scanner_basic_structure():
     # Build a synthetic parabolic then fade

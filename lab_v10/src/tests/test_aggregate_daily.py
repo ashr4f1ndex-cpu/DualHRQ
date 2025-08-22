@@ -1,7 +1,9 @@
 
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 from ..intraday.aggregate_daily import aggregate_intraday_features
+
 
 def test_aggregate_alignment():
     idx = pd.date_range("2024-05-06 09:30", "2024-05-06 16:00", freq="T")

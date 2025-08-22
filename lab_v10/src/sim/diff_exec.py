@@ -33,7 +33,9 @@ implemented via additional helper functions (see ``soft_barrier_mix``).
 from __future__ import annotations
 
 import torch
+
 from ..common.portfolio_loss import EPS
+
 
 def soft_abs(x: torch.Tensor, eps: float = EPS) -> torch.Tensor:
     """Smooth approximation of absolute value.

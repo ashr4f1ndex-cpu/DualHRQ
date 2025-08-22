@@ -1,6 +1,7 @@
 
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 
 def vwap(df: pd.DataFrame) -> pd.Series:
     pv = (df['close'] * df['volume']).cumsum()

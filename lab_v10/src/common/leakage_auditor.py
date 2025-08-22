@@ -1,6 +1,8 @@
 
 from __future__ import annotations
+
 import pandas as pd
+
 
 def assert_no_leakage(df: pd.DataFrame, time_col: str, fold_col: str,
                       label_horizon: pd.Timedelta,

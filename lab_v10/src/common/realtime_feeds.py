@@ -16,21 +16,19 @@ Features:
 """
 
 import asyncio
-import websockets
 import json
-import pandas as pd
-import numpy as np
-from typing import Optional, Callable, Any
-import aiohttp
 import logging
-from datetime import datetime, timedelta
 import queue
-import threading
-import time
-from dataclasses import dataclass
 from abc import ABC, abstractmethod
-import yfinance as yf
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Callable
+
+import aiohttp
+import numpy as np
+import websockets
+import yfinance as yf
 
 logger = logging.getLogger(__name__)
 

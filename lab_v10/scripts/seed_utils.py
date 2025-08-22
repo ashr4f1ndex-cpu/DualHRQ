@@ -7,7 +7,6 @@ to ensure reproducible results in HRM training and backtesting.
 
 import os
 import random
-from typing import Optional
 
 
 def set_all_seeds(seed: int = 1337) -> None:
@@ -19,17 +18,17 @@ def set_all_seeds(seed: int = 1337) -> None:
     """
     # Python hash seed
     os.environ["PYTHONHASHSEED"] = str(seed)
-    
+
     # Python random
     random.seed(seed)
-    
+
     # NumPy
     try:
         import numpy as np
         np.random.seed(seed)
     except ImportError:
         pass
-    
+
     # PyTorch
     try:
         import torch
@@ -72,11 +71,11 @@ def verify_determinism(func, *args, seed: int = 1337, **kwargs) -> bool:
     # First run
     set_all_seeds(seed)
     result1 = func(*args, **kwargs)
-    
+
     # Second run with same seed
     set_all_seeds(seed)
     result2 = func(*args, **kwargs)
-    
+
     # Compare results
     try:
         import numpy as np

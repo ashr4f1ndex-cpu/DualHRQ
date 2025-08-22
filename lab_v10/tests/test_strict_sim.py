@@ -1,6 +1,12 @@
 
 import pandas as pd
-from lab_v10.src.intraday.backtest_intraday_strict import compute_ssr_states, luld_bands, simulate_short_with_constraints
+
+from lab_v10.src.intraday.backtest_intraday_strict import (
+    compute_ssr_states,
+    luld_bands,
+    simulate_short_with_constraints,
+)
+
 
 def _mkt_index(day: str):
     return pd.date_range(f"{day} 09:30", f"{day} 16:00", freq="1min")

@@ -1,6 +1,7 @@
 
+
 from ..options.pricing import bsm_call_put, crr_american
-import math
+
 
 def test_binomial_converges_to_bsm_when_q0_and_no_early_exercise_value():
     S = 100

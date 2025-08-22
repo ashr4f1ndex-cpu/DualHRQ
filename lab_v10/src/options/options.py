@@ -1,11 +1,14 @@
 
 from typing import Optional
+
 import pandas as pd
+
 from .pricing import bsm_straddle, crr_straddle, year_fraction_calendar_days
+
 
 def price_straddle(
     S: float, T: float, r: float, q: float, sigma: float,
-    style: str = "european", dividends: Optional[List[Tuple[float,float]]] = None
+    style: str = "european", dividends: Optional[list[tuple[float,float]]] = None
 ) -> float:
     if style.lower() == "american":
         return crr_straddle(S, T, r, sigma, steps=300, dividends=dividends)
@@ -60,7 +63,7 @@ def simulate_atm_straddle_roundtrip(
         T_exit = max(float(dte_days) - float(hold_days), 0.0) / 365.0
         # Spread fraction: no open widening in day‑count mode unless specified
         spread_frac = (
-            (bid_ask_bps + open_widen_bps) / 1e4 if session == "open" 
+            (bid_ask_bps + open_widen_bps) / 1e4 if session == "open"
             else (bid_ask_bps / 1e4)
         )
     elif entry_ts is not None and expiry_ts is not None and exit_ts is not None:

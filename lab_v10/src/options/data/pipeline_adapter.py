@@ -1,6 +1,6 @@
 
 import pandas as pd
-import numpy as np
+
 
 def build_features_and_labels(S: pd.Series, iv_now: pd.Series, horizon: int=5, intraday_features: pd.DataFrame=None):
     """Daily features: returns, realized vol windows, IV level/slope + optional intraday aggregates.
