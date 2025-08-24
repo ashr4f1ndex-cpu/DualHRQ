@@ -2,32 +2,40 @@
 Advanced Statistical Validation Suite
 
 Research-grade statistical testing framework:
-- Deflated Sharpe Ratio with multiple testing correction
-- White's Reality Check for data snooping
-- Hansen's Superior Predictive Ability (SPA) test
-- Probabilistic Sharpe Ratio with higher moments
-- Stationary block bootstrap for time-series inference
-- Multiple testing corrections (FDR control)
+- Reality Check test for null hypothesis validation
+- Superior Predictive Ability (SPA) test with multiple testing correction
+- Data Snooping-Robust (DSR) test for extensive data mining control
+- Bootstrap procedures for statistical inference
+- Comprehensive backtest validation integration
 """
 
-from .statistical_tests import (
-    StatisticalTestResult,
-    DeflatedSharpeRatio,
-    ProbabilisticSharpeRatio,
-    WhitesRealityCheck,
-    HansenSPATest,
-    StationaryBlockBootstrap,
-    MultipleTestingCorrection,
-    StatisticalValidationSuite
+from .statistical_validity import (
+    StatisticalValidityFramework,
+    RealityCheckTest,
+    SPATest,
+    DSRTest,
+    StatisticalTest,
+    TestResult,
+    TestType,
+    MultipleTestingResult
+)
+
+from .backtest_validation import (
+    BacktestValidator,
+    ValidationConfig,
+    ValidationResults
 )
 
 __all__ = [
-    'StatisticalTestResult',
-    'DeflatedSharpeRatio',
-    'ProbabilisticSharpeRatio', 
-    'WhitesRealityCheck',
-    'HansenSPATest',
-    'StationaryBlockBootstrap',
-    'MultipleTestingCorrection',
-    'StatisticalValidationSuite'
+    'StatisticalValidityFramework',
+    'RealityCheckTest',
+    'SPATest',
+    'DSRTest',
+    'StatisticalTest',
+    'TestResult',
+    'TestType',
+    'MultipleTestingResult',
+    'BacktestValidator',
+    'ValidationConfig',
+    'ValidationResults'
 ]
