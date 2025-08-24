@@ -1,6 +1,8 @@
 
 import pandas as pd
+
 from lab_v10.src.common.leakage_auditor import assert_no_leakage
+
 
 def _toy(n=60, folds=3):
     t0 = pd.Timestamp("2025-01-01 09:30")
