@@ -1,0 +1,61 @@
+# Optimal HRM Configuration for DualHRQ 2.0
+# Target: 26.5M - 27.5M parameters
+# Generated for parameter budget compliance
+
+hrm:
+  # H-module (high-resolution) configuration
+  h_layers: 4
+  h_dim: 640
+  h_heads: 10
+  h_ffn_mult: 3.0
+  h_dropout: 0.1
+  
+  # L-module (low-resolution) configuration  
+  l_layers: 6
+  l_dim: 896
+  l_heads: 14
+  l_ffn_mult: 3.0
+  l_dropout: 0.1
+  
+  # Sequence configuration
+  segments_N: 4
+  l_inner_T: 12
+  
+  # ACT (Adaptive Computation Time) configuration
+  act_enable: true
+  act_max_segments: 6
+  ponder_cost: 0.01
+  
+  # Cross-attention enabled for conditioning
+  use_cross_attn: true
+
+# Loss configuration
+losses:
+  portfolio: 
+    enabled: true
+    weight: 0.1
+    objective: sharpe
+    alpha: 0.05
+  gradnorm: 
+    enabled: true
+    alpha: 0.5
+    weight: 0.01
+
+# Simulation settings
+sim:
+  use_strict_ssr_luld: true   # Enable strict SSR/LULD compliance
+  use_dynamic_conditioning: true  # Enable dynamic regime-based conditioning
+
+# Training settings
+training:
+  batch_size: 32
+  learning_rate: 0.001
+  max_epochs: 100
+  early_stopping_patience: 10
+  gradient_clip_norm: 1.0
+  
+# Data settings
+data:
+  sequence_length: 256
+  prediction_horizon: 5
+  feature_dim: 64

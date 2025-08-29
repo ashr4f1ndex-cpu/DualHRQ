@@ -1,0 +1,17 @@
+hrm:
+  act_enable: true
+  act_max_segments: 5
+  h_dim: 480
+  h_dropout: 0.1
+  h_ffn_mult: 2.5
+  h_heads: 8
+  h_layers: 3
+  l_dim: 576
+  l_dropout: 0.1
+  l_ffn_mult: 2.2
+  l_heads: 9
+  l_inner_T: 8
+  l_layers: 5
+  ponder_cost: 0.01
+  segments_N: 3
+  use_cross_attn: true

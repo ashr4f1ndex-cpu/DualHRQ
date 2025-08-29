@@ -1,0 +1,269 @@
+2025-08-25 17:58:19,540 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-25 17:58:19,540 - __main__ - INFO - ================================================================================
+2025-08-25 17:58:19,540 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-25 17:58:19,540 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-25 17:58:19,540 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-25 17:58:19,540 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-25 17:58:19,540 - __main__ - INFO - ================================================================================
+2025-08-25 17:58:19,540 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-25 17:58:19,540 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-25 17:58:19,540 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-25 17:58:19,540 - __main__ - INFO -    Weeks: 1-2
+2025-08-25 17:58:19,541 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-25 17:58:19,541 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-25 17:58:19,541 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-25 17:58:19,541 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-25 17:58:20,263 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-25 17:58:20,263 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-25 17:58:21,086 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-25 17:58:21,086 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-25 17:58:22,191 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-25 17:58:22,324 - __main__ - ERROR - ❌ Phase 0 FAILED: 2 blocking issues
+2025-08-25 17:58:22,324 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-25 17:58:22,324 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-25 18:02:18,129 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-25 18:02:18,129 - __main__ - INFO - ================================================================================
+2025-08-25 18:02:18,129 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-25 18:02:18,129 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-25 18:02:18,129 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-25 18:02:18,129 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-25 18:02:18,129 - __main__ - INFO - ================================================================================
+2025-08-25 18:02:18,129 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-25 18:02:18,129 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-25 18:02:18,129 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-25 18:02:18,129 - __main__ - INFO -    Weeks: 1-2
+2025-08-25 18:02:18,129 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-25 18:02:18,129 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-25 18:02:18,129 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-25 18:02:18,129 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-25 18:02:18,704 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-25 18:02:18,704 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-25 18:02:19,354 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-25 18:02:19,354 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-25 18:02:20,896 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-25 18:02:21,029 - __main__ - ERROR - ❌ Phase 0 FAILED: 2 blocking issues
+2025-08-25 18:02:21,030 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-25 18:02:21,030 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-25 18:03:20,321 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-25 18:03:20,321 - __main__ - INFO - ================================================================================
+2025-08-25 18:03:20,321 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-25 18:03:20,321 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-25 18:03:20,321 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-25 18:03:20,321 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-25 18:03:20,321 - __main__ - INFO - ================================================================================
+2025-08-25 18:03:20,321 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-25 18:03:20,321 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-25 18:03:20,321 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-25 18:03:20,321 - __main__ - INFO -    Weeks: 1-2
+2025-08-25 18:03:20,321 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-25 18:03:20,321 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-25 18:03:20,321 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-25 18:03:20,321 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-25 18:03:20,876 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-25 18:03:20,876 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-25 18:03:21,582 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-25 18:03:21,583 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-25 18:03:23,017 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-25 18:03:23,017 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-25 18:03:23,150 - __main__ - ERROR - ❌ Phase 0 FAILED: 1 blocking issues
+2025-08-25 18:03:23,150 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-25 18:03:23,151 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-25 18:03:54,571 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-25 18:03:54,571 - __main__ - INFO - ================================================================================
+2025-08-25 18:03:54,571 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-25 18:03:54,571 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-25 18:03:54,571 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-25 18:03:54,571 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-25 18:03:54,571 - __main__ - INFO - ================================================================================
+2025-08-25 18:03:54,571 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-25 18:03:54,571 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-25 18:03:54,571 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-25 18:03:54,571 - __main__ - INFO -    Weeks: 1-2
+2025-08-25 18:03:54,571 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-25 18:03:54,571 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-25 18:03:54,571 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-25 18:03:54,571 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-25 18:03:55,121 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-25 18:03:55,121 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-25 18:03:55,866 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-25 18:03:55,867 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-25 18:03:57,223 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-25 18:03:57,224 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-25 18:03:57,358 - __main__ - ERROR - ❌ Phase 0 FAILED: 1 blocking issues
+2025-08-25 18:03:57,358 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-25 18:03:57,358 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-25 23:28:01,333 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-25 23:28:01,333 - __main__ - INFO - ================================================================================
+2025-08-25 23:28:01,334 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-25 23:28:01,334 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-25 23:28:01,334 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-25 23:28:01,334 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-25 23:28:01,334 - __main__ - INFO - ================================================================================
+2025-08-25 23:28:01,334 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-25 23:28:01,334 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-25 23:28:01,334 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-25 23:28:01,334 - __main__ - INFO -    Weeks: 1-2
+2025-08-25 23:28:01,334 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-25 23:28:01,334 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-25 23:28:01,334 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-25 23:28:01,334 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-25 23:28:01,896 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-25 23:28:01,896 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-25 23:28:03,294 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-25 23:28:03,294 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-25 23:28:04,815 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-25 23:28:04,816 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-25 23:28:04,953 - __main__ - ERROR - ❌ Phase 0 FAILED: 1 blocking issues
+2025-08-25 23:28:04,953 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-25 23:28:04,953 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-28 16:23:17,617 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-28 16:23:17,617 - __main__ - INFO - ================================================================================
+2025-08-28 16:23:17,617 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-28 16:23:17,617 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-28 16:23:17,617 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-28 16:23:17,617 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-28 16:23:17,617 - __main__ - INFO - ================================================================================
+2025-08-28 16:23:17,617 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-28 16:23:17,617 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-28 16:23:17,617 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-28 16:23:17,617 - __main__ - INFO -    Weeks: 1-2
+2025-08-28 16:23:17,617 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-28 16:23:17,617 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-28 16:23:17,617 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-28 16:23:17,617 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-28 16:23:18,393 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-28 16:23:18,393 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-28 16:23:19,965 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-28 16:23:19,965 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-28 16:23:21,507 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-28 16:23:21,508 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-28 16:23:21,611 - __main__ - ERROR - ❌ Phase 0 FAILED: 1 blocking issues
+2025-08-28 16:23:21,612 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-28 16:23:21,612 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-28 16:23:43,768 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-28 16:23:43,768 - __main__ - INFO - ================================================================================
+2025-08-28 16:23:43,768 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-28 16:23:43,768 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-28 16:23:43,768 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-28 16:23:43,768 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-28 16:23:43,768 - __main__ - INFO - ================================================================================
+2025-08-28 16:23:43,768 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-28 16:23:43,768 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-28 16:23:43,768 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-28 16:23:43,769 - __main__ - INFO -    Weeks: 1-2
+2025-08-28 16:23:43,769 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-28 16:23:43,769 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-28 16:23:43,769 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-28 16:23:43,769 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-28 16:23:44,453 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-28 16:23:44,453 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-28 16:23:45,321 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-28 16:23:45,321 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-28 16:23:46,732 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-28 16:23:46,732 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-28 16:23:46,839 - __main__ - ERROR - ❌ Phase 0 FAILED: 1 blocking issues
+2025-08-28 16:23:46,839 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-28 16:23:46,839 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-28 16:24:24,737 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-28 16:24:24,737 - __main__ - INFO - ================================================================================
+2025-08-28 16:24:24,738 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-28 16:24:24,738 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-28 16:24:24,738 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-28 16:24:24,738 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-28 16:24:24,738 - __main__ - INFO - ================================================================================
+2025-08-28 16:24:24,738 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-28 16:24:24,738 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-28 16:24:24,738 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-28 16:24:24,738 - __main__ - INFO -    Weeks: 1-2
+2025-08-28 16:24:24,738 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-28 16:24:24,738 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-28 16:24:24,738 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-28 16:24:24,738 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-28 16:24:25,436 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-28 16:24:25,436 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-28 16:24:26,417 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-28 16:24:26,417 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-28 16:24:27,828 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-28 16:24:27,828 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-28 16:24:27,934 - __main__ - ERROR - ❌ Phase 0 FAILED: 1 blocking issues
+2025-08-28 16:24:27,934 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-28 16:24:27,934 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-28 16:38:31,911 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-28 16:38:31,912 - __main__ - INFO - ================================================================================
+2025-08-28 16:38:31,912 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-28 16:38:31,912 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-28 16:38:31,912 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-28 16:38:31,912 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-28 16:38:31,912 - __main__ - INFO - ================================================================================
+2025-08-28 16:38:31,912 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-28 16:38:31,912 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-28 16:38:31,912 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-28 16:38:31,912 - __main__ - INFO -    Weeks: 1-2
+2025-08-28 16:38:31,912 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-28 16:38:31,912 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-28 16:38:31,912 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-28 16:38:31,912 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-28 16:38:32,983 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-28 16:38:32,983 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-28 16:38:34,263 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-28 16:38:34,263 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-28 16:38:35,690 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-28 16:38:35,690 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-28 16:38:35,798 - __main__ - ERROR - ❌ Phase 0 FAILED: 1 blocking issues
+2025-08-28 16:38:35,798 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-28 16:38:35,799 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-28 16:57:37,039 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-28 16:57:37,039 - __main__ - INFO - ================================================================================
+2025-08-28 16:57:37,039 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-28 16:57:37,039 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-28 16:57:37,039 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-28 16:57:37,039 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-28 16:57:37,039 - __main__ - INFO - ================================================================================
+2025-08-28 16:57:37,039 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-28 16:57:37,040 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-28 16:57:37,040 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-28 16:57:37,040 - __main__ - INFO -    Weeks: 1-2
+2025-08-28 16:57:37,040 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-28 16:57:37,040 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-28 16:57:37,040 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-28 16:57:37,040 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-28 16:57:39,957 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-28 16:57:39,957 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-28 16:57:40,885 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-28 16:57:40,885 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-28 16:57:42,742 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-28 16:57:42,742 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-28 16:57:42,884 - __main__ - ERROR - ❌ Phase 0 FAILED: 1 blocking issues
+2025-08-28 16:57:42,884 - __main__ - ERROR - ❌ phase_0_foundation FAILED - stopping deployment
+2025-08-28 16:57:42,885 - __main__ - INFO - 📊 Deployment report generated: /Users/aziymandias/Desktop/DualHRQ/deployment_report.md
+2025-08-28 16:58:39,061 - __main__ - INFO - 🤖 DualHRQ 2.0 Deployment Orchestrator
+2025-08-28 16:58:39,061 - __main__ - INFO - ================================================================================
+2025-08-28 16:58:39,061 - __main__ - INFO - 🚀 DualHRQ 2.0 Deployment Orchestrator Initialized
+2025-08-28 16:58:39,061 - __main__ - INFO - Project Root: /Users/aziymandias/Desktop/DualHRQ
+2025-08-28 16:58:39,061 - __main__ - INFO - Parameter Budget: 26,500,000 - 27,500,000
+2025-08-28 16:58:39,061 - __main__ - INFO - 🎯 Starting systematic DualHRQ 2.0 deployment
+2025-08-28 16:58:39,061 - __main__ - INFO - ================================================================================
+2025-08-28 16:58:39,061 - __main__ - INFO - 📋 Preparing phase_0_foundation
+2025-08-28 16:58:39,061 - __main__ - INFO - 🚀 Executing phase_0_foundation
+2025-08-28 16:58:39,061 - __main__ - INFO -    Name: Foundation & Guards
+2025-08-28 16:58:39,061 - __main__ - INFO -    Weeks: 1-2
+2025-08-28 16:58:39,061 - __main__ - INFO -    Focus: Parameter gates, ID detection, determinism
+2025-08-28 16:58:39,061 - __main__ - INFO -    Success Gates: ['CI gates operational', 'Static ID detection', 'Determinism tests']
+2025-08-28 16:58:39,061 - __main__ - INFO - 🏗️ Phase 0: Foundation & Guards
+2025-08-28 16:58:39,061 - __main__ - INFO - 🎯 Foundation Task: Parameter counter + CI gate
+2025-08-28 16:58:39,726 - __main__ - INFO - ✅ Parameter counter operational
+2025-08-28 16:58:39,726 - __main__ - INFO - 🔍 Foundation Task: Static ID detection
+2025-08-28 16:58:40,432 - __main__ - INFO - ✅ Static ID detection operational
+2025-08-28 16:58:40,432 - __main__ - INFO - 🧪 Foundation Task: Determinism tests
+2025-08-28 16:58:41,848 - __main__ - INFO - ✅ Determinism tests operational
+2025-08-28 16:58:41,848 - __main__ - INFO - 📦 Foundation Task: Import validation
+2025-08-28 16:58:43,601 - __main__ - INFO - ✅ Import stubs operational
+2025-08-28 16:58:43,601 - __main__ - INFO - 🎉 Phase 0 COMPLETED!
+2025-08-28 16:58:43,602 - __main__ - INFO - 📋 Preparing phase_1_conditioning
+2025-08-28 16:58:43,602 - __main__ - INFO - 🚀 Executing phase_1_conditioning
+2025-08-28 16:58:43,602 - __main__ - INFO -    Name: Conditioning + Budget
+2025-08-28 16:58:43,602 - __main__ - INFO -    Weeks: 3-8
+2025-08-28 16:58:43,602 - __main__ - INFO -    Focus: Dynamic conditioning, parameter compliance
+2025-08-28 16:58:43,602 - __main__ - INFO -    Success Gates: ['≤27.5M params', '<100ms latency', 'No leakage']
+2025-08-28 16:58:43,602 - __main__ - INFO - ⚡ Phase 1: Conditioning Core + Budget Fix
+2025-08-28 16:58:43,602 - __main__ - INFO - 🤖 Executing Phase 1 Conditioning Agent
